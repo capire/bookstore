@@ -1,6 +1,8 @@
 {
   "name": "@capire/bookstore",
-  "version": "1.0.0",
+  "version": "2.0.1",
+  "description": "Shows how to reuse and compose with CAP.",
+  "repository": "https://github.com/capire/bookstore",
   "dependencies": {
     "@capire/bookshop": "*",
     "@capire/reviews": "*",

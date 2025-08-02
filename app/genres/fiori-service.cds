@@ -1,4 +1,4 @@
-using { sap.capire.bookshop.Genres } from '@capire/bookstore';
+using { sap.capire.bookshop.Genres } from '@capire/bookshop';
 
 annotate Genres with @cds.search: {name};
 annotate Genres with @readonly;

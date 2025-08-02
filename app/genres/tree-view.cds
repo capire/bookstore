@@ -1,4 +1,4 @@
-using { AdminService } from '@capire/bookstore';
+using { AdminService } from '@capire/bookshop';
 
 ////////////////////////////////////////////////////////////////////////////
 //

@@ -25,12 +25,14 @@
   "cds": {
     "requires": {
       "ReviewsService": {
-        "kind": "odata",
-        "model": "@capire/reviews"
+        "service": "sap.capire.reviews.api.ReviewsService",
+        "model": "@capire/reviews",
+        "kind": "odata"
       },
       "OrdersService": {
-        "kind": "odata",
-        "model": "@capire/orders"
+        "service": "sap.capire.orders.api.OrdersService",
+        "model": "@capire/orders",
+        "kind": "odata"
       },
       "messaging": true,
       "db": true,

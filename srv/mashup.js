@@ -33,10 +33,10 @@ cds.once ('served', async ()=>{
   //
   // Create an order with the OrdersService when CatalogService signals a new order
   //
-  CatalogService.on ('OrderedBook', async (msg) => {
-    const { book, quantity, buyer } = msg.data
+  CatalogService.before ('submitOrder', async (req) => {
+    const { book, quantity, buyer = req.user.id } = req.data
     const { title, price } = await db.read (Books, book, b => { b.title, b.price })
-    return OrdersService.create ('OrdersNoDraft').entries({
+    await OrdersService.create ('OrdersNoDraft').entries({
       OrderNo: 'Order at '+ (new Date).toLocaleString(),
       Items: [{ product:{ID:`${book}`}, title, price, quantity }],
       buyer, createdBy: buyer
@@ -46,7 +46,7 @@ cds.once ('served', async ()=>{
   //
   // Update Books' average ratings when ReviewsService signals updated reviews
   //
-  ReviewsService.on ('reviewed', (msg) => {
+  ReviewsService.on ('AverageRatings.Changed', (msg) => {
     console.debug ('> received:', msg.event, msg.data) // eslint-disable-line no-console
     const { subject, count, rating } = msg.data
     return UPDATE(Books,subject).with({ numberOfReviews:count, rating })

@@ -18,7 +18,7 @@ cds.once ('served', async ()=>{
   const db = await cds.connect.to ('db')
 
   // reflect entity definitions used below...
-  const { Books } = db.entities ('sap.capire.bookshop')
+  const { Books } = cds.entities ('sap.capire.bookshop')
 
   //
   // Delegate requests to read reviews to the ReviewsService

@@ -2,10 +2,10 @@
 
 A composite app of
 
-- [bookshop](../bookshop) – a simple [primer app](https://cap.cloud.sap/docs/get-started/in-a-nutshell)
-- [reviews](../reviews) - a generic reuse service
-- [orders](../orders) - a generic reuse service
-- [common](../common) - a reuse content package
+- [bookshop](https://github.com/capire/bookshop) – a simple [primer app](https://cap.cloud.sap/docs/get-started/in-a-nutshell)
+- [reviews](https://github.com/capire/reviews) - a generic reuse service
+- [orders](https://github.com/capire/orders) - a generic reuse service
+- [common](https://github.com/capire/common) - a reuse content package
 - [SAP Fiori Elements UIs](app)
 
 

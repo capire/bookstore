@@ -13,7 +13,14 @@ A composite app of
 
 ```sh
 git clone https://github.com/capire/bookstore
+cd bookstore
+npm install
 ```
+
+> This repository uses the [github npm registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry) for the `@capire` scope. You may need to login using a github personal access token with scope `read:packages`.
+> ```sh
+> npm login --scope @capire --registry=https://npm.pkg.github.com
+> ```
 
 
 ### Run it

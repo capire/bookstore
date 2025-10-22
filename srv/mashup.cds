@@ -12,7 +12,7 @@ using { sap.capire.reviews.api.ReviewsService as reviews } from '@capire/reviews
 using { sap.capire.bookshop.Books } from '@capire/bookshop';
 extend Books with {
   rating  : type of reviews.AverageRatings:rating; // average rating
-  numberOfReviews : Integer @title : '{i18n>NumberOfReviews}';
+  reviews : Integer @title : '{i18n>NumberOfReviews}';
 }
 
 

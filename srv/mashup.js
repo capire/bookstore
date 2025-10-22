@@ -48,8 +48,8 @@ cds.once ('served', async ()=>{
   //
   ReviewsService.on ('AverageRatings.Changed', (msg) => {
     console.debug ('> received:', msg.event, msg.data) // eslint-disable-line no-console
-    const { subject, count, rating } = msg.data
-    return UPDATE(Books,subject).with({ numberOfReviews:count, rating })
+    const { subject, reviews, rating } = msg.data
+    return UPDATE (Books, subject) .with ({ reviews, rating })
   })
 
   //

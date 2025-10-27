@@ -26,7 +26,7 @@ npm install
 ### Run it
 
 ```sh
-cds watch bookstore
+cds watch
 ```
 
 

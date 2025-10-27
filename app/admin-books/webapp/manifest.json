@@ -38,6 +38,7 @@
         }
     },
     "sap.ui5": {
+        "flexEnabled": true,
         "dependencies": {
             "libs": {
                 "sap.fe.templates": {},
@@ -146,7 +147,7 @@
             "extensions": {
                 "sap.ui.controllerExtensions": {
                     "sap.fe.templates.ListReport.ListReportController": {
-                        "BREAKING: controllerName": "books.ext.controller.UIFlex"
+                        "controllerName": "books.ext.controller.UIFlex"
                     }
                 }
             }

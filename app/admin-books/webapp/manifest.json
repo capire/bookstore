@@ -40,7 +40,8 @@
     "sap.ui5": {
         "dependencies": {
             "libs": {
-                "sap.fe.templates": {}
+                "sap.fe.templates": {},
+                "sap.ui.fl": {}
             }
         },
         "models": {
@@ -96,6 +97,18 @@
                                         "route" : "BooksDetails"
                                     }
                                 }
+                            },
+                            "content": {
+                                "header": {
+                                    "actions": {
+                                        "adaptUi": {
+                                            "press": ".extension.books.ext.controller.UIFlex.onAdaptUi",
+                                            "visible": true,
+                                            "enabled": true,
+                                            "text": "Adapt UI"
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -125,6 +138,15 @@
                         "settings" : {
                             "entitySet" : "Authors"
                         }
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.fe.templates.ListReport.ListReportController": {
+                        "BREAKING: controllerName": "books.ext.controller.UIFlex"
                     }
                 }
             }

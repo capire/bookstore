@@ -45,6 +45,8 @@
         }
       }
     },
-    "log": { "service": true }
+    "log": {
+      "service": true
+    }
   }
 }

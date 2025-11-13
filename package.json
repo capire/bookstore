@@ -30,7 +30,7 @@
         "kind": "odata"
       },
       "OrdersService": {
-        "service": "sap.capire.orders.api.OrdersService",
+        "service": "OrdersService",
         "model": "@capire/orders",
         "kind": "odata"
       },

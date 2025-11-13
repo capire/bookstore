@@ -35,6 +35,7 @@
         "kind": "odata"
       },
       "messaging": true,
+      "[development]": { "messaging": { "kind": "file-based-messaging" } },
       "db": true,
       "db-ext": {
         "[development]": {

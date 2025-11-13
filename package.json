@@ -30,7 +30,6 @@
         "kind": "odata"
       },
       "OrdersService": {
-        "service": "OrdersService",
         "model": "@capire/orders",
         "kind": "odata"
       },

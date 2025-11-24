@@ -21,6 +21,8 @@ npm install
 > ```sh
 > npm login --scope @capire --registry=https://npm.pkg.github.com
 > ```
+>
+> For more details on this, see [Using @capire modules from GitHub Packages](https://qmacro.org/blog/posts/2025/10/12/using-capire-modules-from-github-packages/).
 
 
 ### Run it

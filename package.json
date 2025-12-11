@@ -13,7 +13,8 @@
     "@sap-cloud-sdk/http-client": "^4",
     "@sap-cloud-sdk/resilience": "^4",
     "@sap/cds": ">=5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "@sap/cds-mtxs": "git+https://github.tools.sap/cap/cds-mtxs.git"
   },
   "devDependencies": {
     "@cap-js/sqlite": ">=1"
@@ -24,6 +25,23 @@
   },
   "cds": {
     "requires": {
+      "multitenancy": true,
+      "extensibility": true,
+      "cds.xt.DeploymentService": false,
+      "cds.xt.RemoteExtensibilityService": {
+        "kind": "rest",
+        "model": "@sap/cds-mtxs/srv/extensibility-service",
+        "[development]": {
+          "credentials": {
+            "url": "http://localhost:4005"
+          }
+        },
+        "[production]": {
+          "credentials": {
+            "destination": "mtx-api"
+          }
+        }
+      },
       "ReviewsService": {
         "service": "sap.capire.reviews.api.ReviewsService",
         "model": "@capire/reviews",

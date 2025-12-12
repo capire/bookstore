@@ -64,6 +64,7 @@
     },
     "log": {
       "service": true
-    }
+    },
+    "appid": true
   }
 }

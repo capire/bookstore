@@ -27,7 +27,6 @@
     "requires": {
       "multitenancy": true,
       "extensibility": true,
-      "cds.xt.DeploymentService": false,
       "cds.xt.RemoteExtensibilityService": {
         "kind": "rest",
         "model": "@sap/cds-mtxs/srv/extensibility-service",

@@ -14,7 +14,7 @@
     "@sap-cloud-sdk/resilience": "^4",
     "@sap/cds": ">=5",
     "express": "^4.17.1",
-    "@sap/cds-mtxs": "git+https://github.tools.sap/cap/cds-mtxs.git"
+    "@sap/cds-mtxs": "3.6.0"
   },
   "devDependencies": {
     "@cap-js/sqlite": ">=1"

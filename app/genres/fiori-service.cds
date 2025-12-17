@@ -31,6 +31,4 @@ annotate Genres with @(UI : {
 
 
 // Tree Views
-// annotate AdminService.Genres with @hierarchy; // upcomming simplification
-using from './tree-view';
-using from './value-help';
+annotate AdminService.Genres with @hierarchy;

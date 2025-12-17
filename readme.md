@@ -29,6 +29,11 @@ npm install
 cds watch bookstore
 ```
 
+### Deploy it
+
+This @capire/bookstore sample demonstrates the consumption of external services via the `ReviewsService` and `OrdersService`. Therefore, remove the `"kind": "odata"` entries in _package.json_ if you want to deploy this project as a _monolith_.
+
+To deploy the microservices separately in a _modulith_ deployment, refer to the enclosing [`samples`](https://github.com/capire/samples) monorepo and its deployment and pipeline configuration.
 
 ## License
 

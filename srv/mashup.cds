@@ -28,3 +28,7 @@ extend Orders:Items with {
 using from '@capire/orders/app/fiori';
 using from '@capire/data-viewer';
 using from '@capire/common';
+
+
+// Restrict admin access to AdminService
+annotate AdminService with @requires:'admin';

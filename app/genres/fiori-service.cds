@@ -29,3 +29,4 @@ annotate Genres with @(UI : {
 
 // Tree Views
 annotate AdminService.Genres with @hierarchy;
+using from './value-help';

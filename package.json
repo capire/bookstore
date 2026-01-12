@@ -38,7 +38,7 @@
         "kind": "odata"
       },
       "messaging": true,
-      "db-ext": {
+      "db": {
         "[development]": {
           "model": "db/sqlite"
         },

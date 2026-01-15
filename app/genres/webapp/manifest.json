@@ -1,7 +1,7 @@
 {
 	"_version": "1.8.0",
 	"sap.app": {
-		"id": "genres",
+		"id": "capire.genres",
 		"type": "application",
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
@@ -48,12 +48,7 @@
 					"synchronizationMode": "None",
 					"operationMode": "Server",
 					"autoExpandSelect": true,
-					"earlyRequests": true,
-					"groupProperties": {
-						"default": {
-							"submit": "Auto"
-						}
-					}
+					"earlyRequests": true
 				}
 			}
 		},
@@ -78,6 +73,7 @@
 					"options": {
 						"settings": {
 							"contextPath": "/Genres",
+							"liveMode": true,
 							"navigation": {
 								"Genres": {
 									"detail": {
@@ -114,9 +110,13 @@
 		}
 	},
 	"sap.ui": {
-		"technology": "UI5",
-		"fullWidth": false
-	},
+        "technology": "UI5",
+        "deviceTypes": {
+            "desktop": true,
+            "phone": true,
+            "tablet": true
+        }
+    },
 	"sap.fiori": {
 		"registrationIds": [],
 		"archeType": "transactional"

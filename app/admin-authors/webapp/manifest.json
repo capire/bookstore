@@ -1,7 +1,7 @@
 {
   "_version": "1.28.0",
   "sap.app": {
-    "id": "authors",
+    "id": "capire.authors",
     "type": "application",
     "title": "Manage Authors",
     "description": "Sample Application",
@@ -20,7 +20,6 @@
     },
     "sourceTemplate": {
       "id": "ui5template.basicSAPUI5ApplicationProject",
-      "-id": "ui5template.smartTemplate",
       "version": "1.40.12"
     },
     "crossNavigation": {
@@ -67,12 +66,7 @@
           "synchronizationMode": "None",
           "operationMode": "Server",
           "autoExpandSelect": true,
-          "earlyRequests": true,
-          "groupProperties": {
-            "default": {
-              "submit": "Auto"
-            }
-          }
+          "earlyRequests": true
         }
       }
     },
@@ -96,8 +90,8 @@
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
-              "entitySet": "Authors",
-              "initialLoad": true,
+              "contextPath": "/Authors",
+              "liveMode": true,
               "navigation": {
                 "Authors": {
                   "detail": {
@@ -114,7 +108,7 @@
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
-              "entitySet": "Authors"
+              "contextPath": "/Authors"
             }
           }
         }
@@ -127,7 +121,6 @@
   },
   "sap.ui": {
     "technology": "UI5",
-    "fullWidth": false,
     "deviceTypes":{
       "desktop": true,
       "tablet": true,

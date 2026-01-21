@@ -9,11 +9,9 @@ describe('cap/samples - Messaging', ()=>{
     expect (cds.model) .not.undefined
   })
 
-  let ReviewsApp, ReviewsService
+  let ReviewsService
   it ('should serve ReviewsService', async()=>{
-    ReviewsService = await cds.connect.to ('sap.capire.reviews.api.ReviewsService')
-    ReviewsApp = await cds.connect.to ('sap.capire.reviews.app.ReviewsService')
-    expect (ReviewsApp) .to.exist
+    ReviewsService = await cds.connect.to ('ReviewsService')
     expect (ReviewsService) .to.exist
   })
 
@@ -28,15 +26,15 @@ describe('cap/samples - Messaging', ()=>{
 
   it ('should add review', async ()=>{
     const review = { subject: '201', rating: 1 }
-    const response = await ReviewsApp.create ('Reviews', review)
+    const response = await ReviewsService.create ('Reviews', review)
     expect (response) .to.containSubset (review)
   })
 
   it ('should add more reviews', ()=> Promise.all ([
-    ReviewsApp.create ('Reviews', { subject: '201', reviewer: `Alice`, rating: 2 }),
-    ReviewsApp.create ('Reviews', { subject: '201', reviewer: `Bob`,   rating: 3 }),
-    ReviewsApp.create ('Reviews', { subject: '201', reviewer: `Carol`, rating: 4 }),
-    ReviewsApp.create ('Reviews', { subject: '201', reviewer: `Dave`,  rating: 5 }),
+    ReviewsService.create ('Reviews', { subject: '201', reviewer: `Alice`, rating: 2 }),
+    ReviewsService.create ('Reviews', { subject: '201', reviewer: `Bob`,   rating: 3 }),
+    ReviewsService.create ('Reviews', { subject: '201', reviewer: `Carol`, rating: 4 }),
+    ReviewsService.create ('Reviews', { subject: '201', reviewer: `Dave`,  rating: 5 }),
   ]))
 
   it ('should have received all messages', async()=> {

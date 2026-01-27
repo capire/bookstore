@@ -27,16 +27,8 @@
   },
   "cds": {
     "requires": {
-      "ReviewsService": {
-        "service": "sap.capire.reviews.api.ReviewsService",
-        "model": "@capire/reviews",
-        "kind": "odata"
-      },
-      "OrdersService": {
-        "service": "sap.capire.orders.api.OrdersService",
-        "model": "@capire/orders",
-        "kind": "odata"
-      },
+      "ReviewsService": "odata",
+      "OrdersService": "odata",
       "messaging": true,
       "db": {
         "[development]": {

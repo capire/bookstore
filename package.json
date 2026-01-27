@@ -41,6 +41,9 @@
     },
     "log": {
       "service": true
+    },
+    "fiori": {
+      "direct_crud": true
     }
   }
 }

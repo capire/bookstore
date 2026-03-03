@@ -4,10 +4,14 @@ const { GET, POST, DELETE, expect, axios } = cds.test(__dirname)
 // Fetch API disallows GET|HEAD requests with body
 if (axios.constructor.name === 'Naxios') it = it.skip
 
-describe ('GET w/ query in body', () => {
+const _unwrap = data => {
+  data = data.data ?? data
+  return Array.isArray(data) ? data : [data]
+}
 
+describe ('GET w/ query in body', () => {
   it ('serves CQN query objects in body', async () => {
-    const { data, books = data.data ?? data } = await GET ('/hcql/admin', {
+    const { data, books = _unwrap(data) } = await GET ('/hcql/admin', {
       headers: { 'Content-Type': 'application/json' },
       data: cds.ql `SELECT from Books`
     })
@@ -15,7 +19,7 @@ describe ('GET w/ query in body', () => {
   })
 
   it ('serves plain CQL strings in body', async () => {
-    const { data, books = data.data ?? data } = await GET ('/hcql/admin', {
+    const { data, books = _unwrap(data) } = await GET ('/hcql/admin', {
       headers: { 'Content-Type': 'text/plain' },
       data: `SELECT from Books`
     })
@@ -23,7 +27,7 @@ describe ('GET w/ query in body', () => {
   })
 
   it ('serves complex and deep queries', async () => {
-    const { data, books = data.data ?? data } = await GET ('/hcql/admin', {
+    const { data, books = _unwrap(data) } = await GET ('/hcql/admin', {
       headers: { 'Content-Type': 'text/plain' },
       data: `SELECT from Authors {
         name,
@@ -61,26 +65,23 @@ describe ('GET w/ query in body', () => {
       }
     ])
   })
-
 })
 
 describe ('Sluggified variants', () => {
-
   test ('GET /Books', async () => {
-    const { data, books = data.data ?? data } = await GET ('/hcql/admin/Books')
+    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books')
     expect(books).to.be.an('array').of.length(5)
   })
 
-
   test ('GET /Books/201', async () => {
-    const { data, books = data.data ?? data } = await GET ('/hcql/admin/Books/201')
+    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201')
     expect(books).to.be.an('array').of.length(1)
     expect(books[0]).to.be.an('object')
     expect(books[0]).to.have.property ('title', "Wuthering Heights")
   })
 
   test ('GET /Books { title, author.name as author }' , async () => {
-    const { data, books = data.data ?? data } = await GET ('/hcql/admin/Books { title, author.name as author } order by ID')
+    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books { title, author.name as author } order by ID')
     expect(books).to.deep.equal ([
       { title: "Wuthering Heights", author: "Emily Brontë" },
       { title: "Jane Eyre", author: "Charlotte Brontë" },
@@ -91,12 +92,12 @@ describe ('Sluggified variants', () => {
   })
 
   test ('GET /Books/201 w/ CQL tail in URL' , async () => {
-    const { data, books = data.data ?? data } = await GET ('/hcql/admin/Books/201 { title, author.name as author } order by ID')
+    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201 { title, author.name as author } order by ID')
     expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
   it ('GET /Books/201 w/ CQL fragment in body' , async () => {
-    const { data, books = data.data ?? data } = await GET ('/hcql/admin/Books/201', {
+    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201', {
       headers: { 'Content-Type': 'text/plain' },
       data: `{ title, author.name as author }`
     })
@@ -104,7 +105,7 @@ describe ('Sluggified variants', () => {
   })
 
   it ('GET /Books/201 w/ CQN fragment in body' , async () => {
-    const { data, books = data.data ?? data } = await GET ('/hcql/admin/Books/201', {
+    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201', {
       data: cds.ql `SELECT title, author.name as author` .SELECT
     })
     expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
@@ -121,23 +122,18 @@ describe ('Sluggified variants', () => {
     })
     expect(b2).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
-
 })
 
 describe ('CREATE', () => {
-
   it ('creates entities', async () => {
     let res = await POST ('/hcql/admin/Books', { title: "Neuromancer", author_ID: 101 })
     expect(res.status).to.equal(201)
-    let books = res.data.data ?? res.data
-    books = Array.isArray(books) ? books : [books]
+    const books = _unwrap(res.data)
     expect(books[0]).to.have.property('ID') // server-generated ID
   })
-
 })
 
 describe ('DELETE', () => {
-
   it ('deletes single entities with affected rows as result', async () => {
     let res = await DELETE `/hcql/admin/Books/201`
     expect(res.status).to.equal(200)
@@ -150,5 +146,4 @@ describe ('DELETE', () => {
     expect(res.status).to.equal(200)
     expect(res.data.data ?? res.data).to.equal(2) // 2 affected rows
   })
-
 })

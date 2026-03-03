@@ -93,6 +93,7 @@ describe ('Sluggified variants', () => {
 
   test ('GET /Books/201 w/ CQL tail in URL' , async () => {
     const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201 { title, author.name as author } order by ID')
+    expect(books).to.be.an('array').of.length(1)
     expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
@@ -101,6 +102,7 @@ describe ('Sluggified variants', () => {
       headers: { 'Content-Type': 'text/plain' },
       data: `{ title, author.name as author }`
     })
+    expect(books).to.be.an('array').of.length(1)
     expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
@@ -108,15 +110,16 @@ describe ('Sluggified variants', () => {
     const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201', {
       data: cds.ql `SELECT title, author.name as author` .SELECT
     })
+    expect(books).to.be.an('array').of.length(1)
     expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
   it ('GET /Books/201 w/ tail in URL plus CQL/CQN fragments in body' , async () => {
-    const { data: d1, b1 = (d1.data ?? d1)[0] } = await GET ('/hcql/admin/Books where ID=201', {
+    const { data: d1, b1 = _unwrap(d1)[0] } = await GET ('/hcql/admin/Books where ID=201', {
       data: cds.ql `SELECT title, author.name as author` .SELECT
     })
     expect(b1).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
-    const { data: d2, b2 = (d2.data ?? d2)[0] } = await GET ('/hcql/admin/Books where ID=201', {
+    const { data: d2, b2 = _unwrap(d2)[0] } = await GET ('/hcql/admin/Books where ID=201', {
       headers: { 'Content-Type': 'text/plain' },
       data: `{ title, author.name as author }`
     })
@@ -129,6 +132,7 @@ describe ('CREATE', () => {
     let res = await POST ('/hcql/admin/Books', { title: "Neuromancer", author_ID: 101 })
     expect(res.status).to.equal(201)
     const books = _unwrap(res.data)
+    expect(books).to.be.an('array').of.length(1)
     expect(books[0]).to.have.property('ID') // server-generated ID
   })
 })

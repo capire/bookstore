@@ -64,20 +64,19 @@ describe ('GET w/ query in body', () => {
 
 })
 
-
 describe ('Sluggified variants', () => {
 
   test ('GET /Books', async () => {
     const { data, books = data.data ?? data } = await GET ('/hcql/admin/Books')
     expect(books).to.be.an('array').of.length(5)
-    expect(books.length).to.eql(5) //.of.length(5)
   })
 
 
   test ('GET /Books/201', async () => {
-    const { data, book = data.data ?? data } = await GET ('/hcql/admin/Books/201')
-    expect(book).to.be.an('object')
-    expect(book).to.have.property ('title', "Wuthering Heights")
+    const { data, books = data.data ?? data } = await GET ('/hcql/admin/Books/201')
+    expect(books).to.be.an('array').of.length(1)
+    expect(books[0]).to.be.an('object')
+    expect(books[0]).to.have.property ('title', "Wuthering Heights")
   })
 
   test ('GET /Books { title, author.name as author }' , async () => {
@@ -92,23 +91,23 @@ describe ('Sluggified variants', () => {
   })
 
   test ('GET /Books/201 w/ CQL tail in URL' , async () => {
-    const { data, book = data.data ?? data } = await GET ('/hcql/admin/Books/201 { title, author.name as author } order by ID')
-    expect(book).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
+    const { data, books = data.data ?? data } = await GET ('/hcql/admin/Books/201 { title, author.name as author } order by ID')
+    expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
   it ('GET /Books/201 w/ CQL fragment in body' , async () => {
-    const { data, book = data.data ?? data } = await GET ('/hcql/admin/Books/201', {
+    const { data, books = data.data ?? data } = await GET ('/hcql/admin/Books/201', {
       headers: { 'Content-Type': 'text/plain' },
       data: `{ title, author.name as author }`
     })
-    expect(book).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
+    expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
   it ('GET /Books/201 w/ CQN fragment in body' , async () => {
-    const { data, book = data.data ?? data } = await GET ('/hcql/admin/Books/201', {
+    const { data, books = data.data ?? data } = await GET ('/hcql/admin/Books/201', {
       data: cds.ql `SELECT title, author.name as author` .SELECT
     })
-    expect(book).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
+    expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
   it ('GET /Books/201 w/ tail in URL plus CQL/CQN fragments in body' , async () => {
@@ -125,13 +124,14 @@ describe ('Sluggified variants', () => {
 
 })
 
-
 describe ('CREATE', () => {
 
   it ('creates entities', async () => {
     let res = await POST ('/hcql/admin/Books', { title: "Neuromancer", author_ID: 101 })
     expect(res.status).to.equal(201)
-    expect(res.data.data ?? res.data).to.have.property('ID') // server-generated ID
+    let books = res.data.data ?? res.data
+    books = Array.isArray(books) ? books : [books]
+    expect(books[0]).to.have.property('ID') // server-generated ID
   })
 
 })

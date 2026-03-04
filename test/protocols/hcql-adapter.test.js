@@ -4,14 +4,10 @@ const { GET, POST, DELETE, expect, axios } = cds.test(__dirname)
 // Fetch API disallows GET|HEAD requests with body
 if (axios.constructor.name === 'Naxios') it = it.skip
 
-const _unwrap = data => {
-  data = data.data ?? data
-  return Array.isArray(data) ? data : [data]
-}
-
 describe ('GET w/ query in body', () => {
+
   it ('serves CQN query objects in body', async () => {
-    const { data, books = _unwrap(data) } = await GET ('/hcql/admin', {
+    const { data, books = data.data ?? data } = await GET ('/hcql/admin', {
       headers: { 'Content-Type': 'application/json' },
       data: cds.ql `SELECT from Books`
     })
@@ -19,7 +15,7 @@ describe ('GET w/ query in body', () => {
   })
 
   it ('serves plain CQL strings in body', async () => {
-    const { data, books = _unwrap(data) } = await GET ('/hcql/admin', {
+    const { data, books = data.data ?? data } = await GET ('/hcql/admin', {
       headers: { 'Content-Type': 'text/plain' },
       data: `SELECT from Books`
     })
@@ -27,7 +23,7 @@ describe ('GET w/ query in body', () => {
   })
 
   it ('serves complex and deep queries', async () => {
-    const { data, books = _unwrap(data) } = await GET ('/hcql/admin', {
+    const { data, books = data.data ?? data } = await GET ('/hcql/admin', {
       headers: { 'Content-Type': 'text/plain' },
       data: `SELECT from Authors {
         name,
@@ -65,23 +61,27 @@ describe ('GET w/ query in body', () => {
       }
     ])
   })
+
 })
 
+
 describe ('Sluggified variants', () => {
+
   test ('GET /Books', async () => {
-    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books')
+    const { data, books = data.data ?? data } = await GET ('/hcql/admin/Books')
     expect(books).to.be.an('array').of.length(5)
+    expect(books.length).to.eql(5) //.of.length(5)
   })
 
+
   test ('GET /Books/201', async () => {
-    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201')
-    expect(books).to.be.an('array').of.length(1)
-    expect(books[0]).to.be.an('object')
-    expect(books[0]).to.have.property ('title', "Wuthering Heights")
+    const { data, book = data.data ?? data } = await GET ('/hcql/admin/Books/201')
+    expect(book).to.be.an('object')
+    expect(book).to.have.property ('title', "Wuthering Heights")
   })
 
   test ('GET /Books { title, author.name as author }' , async () => {
-    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books { title, author.name as author } order by ID')
+    const { data, books = data.data ?? data } = await GET ('/hcql/admin/Books { title, author.name as author } order by ID')
     expect(books).to.deep.equal ([
       { title: "Wuthering Heights", author: "Emily Brontë" },
       { title: "Jane Eyre", author: "Charlotte Brontë" },
@@ -92,52 +92,52 @@ describe ('Sluggified variants', () => {
   })
 
   test ('GET /Books/201 w/ CQL tail in URL' , async () => {
-    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201 { title, author.name as author } order by ID')
-    expect(books).to.be.an('array').of.length(1)
-    expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
+    const { data, book = data.data ?? data } = await GET ('/hcql/admin/Books/201 { title, author.name as author } order by ID')
+    expect(book).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
   it ('GET /Books/201 w/ CQL fragment in body' , async () => {
-    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201', {
+    const { data, book = data.data ?? data } = await GET ('/hcql/admin/Books/201', {
       headers: { 'Content-Type': 'text/plain' },
       data: `{ title, author.name as author }`
     })
-    expect(books).to.be.an('array').of.length(1)
-    expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
+    expect(book).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
   it ('GET /Books/201 w/ CQN fragment in body' , async () => {
-    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201', {
+    const { data, book = data.data ?? data } = await GET ('/hcql/admin/Books/201', {
       data: cds.ql `SELECT title, author.name as author` .SELECT
     })
-    expect(books).to.be.an('array').of.length(1)
-    expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
+    expect(book).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
   it ('GET /Books/201 w/ tail in URL plus CQL/CQN fragments in body' , async () => {
-    const { data: d1, b1 = _unwrap(d1)[0] } = await GET ('/hcql/admin/Books where ID=201', {
+    const { data: d1, b1 = (d1.data ?? d1)[0] } = await GET ('/hcql/admin/Books where ID=201', {
       data: cds.ql `SELECT title, author.name as author` .SELECT
     })
     expect(b1).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
-    const { data: d2, b2 = _unwrap(d2)[0] } = await GET ('/hcql/admin/Books where ID=201', {
+    const { data: d2, b2 = (d2.data ?? d2)[0] } = await GET ('/hcql/admin/Books where ID=201', {
       headers: { 'Content-Type': 'text/plain' },
       data: `{ title, author.name as author }`
     })
     expect(b2).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
+
 })
 
+
 describe ('CREATE', () => {
+
   it ('creates entities', async () => {
     let res = await POST ('/hcql/admin/Books', { title: "Neuromancer", author_ID: 101 })
     expect(res.status).to.equal(201)
-    const books = _unwrap(res.data)
-    expect(books).to.be.an('array').of.length(1)
-    expect(books[0]).to.have.property('ID') // server-generated ID
+    expect(res.data.data ?? res.data).to.have.property('ID') // server-generated ID
   })
+
 })
 
 describe ('DELETE', () => {
+
   it ('deletes single entities with affected rows as result', async () => {
     let res = await DELETE `/hcql/admin/Books/201`
     expect(res.status).to.equal(200)
@@ -150,4 +150,5 @@ describe ('DELETE', () => {
     expect(res.status).to.equal(200)
     expect(res.data.data ?? res.data).to.equal(2) // 2 affected rows
   })
+
 })

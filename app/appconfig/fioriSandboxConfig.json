@@ -92,7 +92,7 @@
               },
               "resolutionResult": {
                 "applicationType": "SAPUI5",
-                "additionalInformation": "SAPUI5.Component=bookshop",
+                "additionalInformation": "SAPUI5.Component=capire.bookshop",
                 "url": "/browse/webapp"
               }
             },
@@ -110,7 +110,7 @@
               },
               "resolutionResult": {
                 "applicationType": "SAPUI5",
-                "additionalInformation": "SAPUI5.Component=authors",
+                "additionalInformation": "SAPUI5.Component=capire.authors",
                 "url": "/admin-authors/webapp"
               }
             },
@@ -128,7 +128,7 @@
               },
               "resolutionResult": {
                 "applicationType": "SAPUI5",
-                "additionalInformation": "SAPUI5.Component=genres",
+                "additionalInformation": "SAPUI5.Component=capire.genres",
                 "url": "/genres/webapp"
               }
             },
@@ -142,7 +142,7 @@
               },
               "resolutionResult": {
                 "applicationType": "SAPUI5",
-                "additionalInformation": "SAPUI5.Component=books",
+                "additionalInformation": "SAPUI5.Component=capire.books",
                 "url": "/admin-books/webapp"
               }
             },

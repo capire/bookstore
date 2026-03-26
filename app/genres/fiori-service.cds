@@ -1,7 +1,10 @@
 using { sap.capire.bookshop.Genres } from '@capire/bookshop';
 
+annotate AdminService.Genres with @odata.draft.enabled;
+// needed for changing a parent
+annotate AdminService.Genres with @odata.draft.bypass;
+
 annotate Genres with @cds.search: {name};
-annotate Genres with @readonly;
 annotate Genres with {
   name @title: '{i18n>Genre}';
 }

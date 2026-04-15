@@ -4,19 +4,19 @@
   "description": "Shows how to reuse and compose with CAP.",
   "repository": "https://github.com/capire/bookstore",
   "dependencies": {
-    "@cap-js/hana": ">=1",
-    "@capire/bookshop": "*",
-    "@capire/common": "*",
-    "@capire/data-viewer": "*",
-    "@capire/orders": "*",
-    "@capire/reviews": "*",
-    "@sap-cloud-sdk/http-client": "^4",
-    "@sap-cloud-sdk/resilience": "^4",
-    "@sap/cds": ">=5"
+    "@cap-js/hana": "^2.7.0",
+    "@capire/bookshop": "^2.1.7",
+    "@capire/common": "^2.0.2",
+    "@capire/data-viewer": "^0.1.5",
+    "@capire/orders": "^2.0.1",
+    "@capire/reviews": "^2.0.2",
+    "@sap-cloud-sdk/http-client": "^4.6.0",
+    "@sap-cloud-sdk/resilience": "^4.6.0",
+    "@sap/cds": "^9.8.5"
   },
   "devDependencies": {
-    "@cap-js/cds-test": ">=0.4.1",
-    "@cap-js/sqlite": ">=1"
+    "@cap-js/cds-test": "^0.4.1",
+    "@cap-js/sqlite": "^2.2.0"
   },
   "scripts": {
     "start": "cds-serve",

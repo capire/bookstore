@@ -12,7 +12,7 @@
     "@capire/reviews": "^2.0.2",
     "@sap-cloud-sdk/http-client": "^4.6.0",
     "@sap-cloud-sdk/resilience": "^4.6.0",
-    "@sap/cds": "^9.8.5"
+    "@sap/cds": "git+https://github.tools.sap/cap/cds#fix/hierarchy-direct-crud-exclusion"
   },
   "devDependencies": {
     "@cap-js/cds-test": "^0.4.1",

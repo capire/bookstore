@@ -198,24 +198,13 @@ describe('cds.ql → cqn', () => {
       .to.eql(SELECT.from(Foo,{ID:11}))
       .to.eql(SELECT.from(Foo).byKey(11))
       .to.eql(SELECT.from(Foo).byKey({ID:11}))
-      if (cds.version >= '5.6.0') {
-        expect.one(cqn)
-        .to.eql({
-          SELECT: {
-            one: true,
-            from: { ref: [{ id: 'Foo', where: [{ ref: ['ID'] }, '=', { val: 11 }] }] },
-          },
-        })
-      } else {
-        expect.one(cqn)
-        .to.eql({
-          SELECT: {
-            one: true,
-            from: { ref: ['Foo'] },
-            where: [{ ref: ['ID'] }, '=', { val: 11 }],
-          },
-        })
-      }
+      expect.one(cqn)
+      .to.eql({
+        SELECT: {
+          one: true,
+          from: { ref: [{ id: 'Foo', where: [{ ref: ['ID'] }, '=', { val: 11 }] }] },
+        },
+      })
 
     })
 
@@ -254,26 +243,14 @@ describe('cds.ql → cqn', () => {
       expect(cqn = SELECT.from(Foo, 11, ['a']))
       .to.eql(SELECT.from(Foo, 11, foo => foo.a))
 
-      if (cds.version >= '5.6.0') {
-        expect.one(cqn)
-        .to.eql({
-          SELECT: {
-            one: true,
-            from: { ref: [{ id: 'Foo', where: [{ ref: ['ID'] }, '=', { val: 11 }]}] },
-            columns: [{ ref: ['a'] }]
-          },
-        })
-      } else {
-        expect.one(cqn)
-        .to.eql({
-          SELECT: {
-            one: true,
-            from: { ref: ['Foo'] },
-            columns: [{ ref: ['a'] }],
-            where: [{ ref: ['ID'] }, '=', { val: 11 }],
-          },
-        })
-      }
+      expect.one(cqn)
+      .to.eql({
+        SELECT: {
+          one: true,
+          from: { ref: [{ id: 'Foo', where: [{ ref: ['ID'] }, '=', { val: 11 }]}] },
+          columns: [{ ref: ['a'] }]
+        },
+      })
 
     })
 
@@ -606,16 +583,14 @@ describe('cds.ql → cqn', () => {
 
       // in select clauses
       cqn = cds.ql`SELECT from Foo { x, (SELECT y from Bar) as y }`
-      cds.version >= '3.33.3' &&
-        expect(
-          SELECT.from(Foo, (foo) => {
-            foo.x, foo(SELECT.from('Bar', (b) => b.y)).as('y')
-          })
-        ).to.eql(cqn)
-      cds.version >= '3.33.3' &&
-        expect(
-          SELECT.from(Foo, ['x', Object.assign(SELECT('y').from('Bar'), { as: 'y' })])
-        ).to.eql(cqn)
+      expect(
+        SELECT.from(Foo, (foo) => {
+          foo.x, foo(SELECT.from('Bar', (b) => b.y)).as('y')
+        })
+      ).to.eql(cqn)
+      expect(
+        SELECT.from(Foo, ['x', Object.assign(SELECT('y').from('Bar'), { as: 'y' })])
+      ).to.eql(cqn)
     })
 
     test('w/ plain SQL', () => {
@@ -734,13 +709,11 @@ describe('cds.ql → cqn', () => {
         .to.eql(UPDATE(Books).where(`ID=`, 4711))
         .to.eql(cqnWhere)
 
-      const cqnKey = (cds.version >= '5.6.0') ?
-        {
-          UPDATE: {
-            entity: { ref: [{ id: 'capire.bookshop.Books', where: [{ ref: ['ID'] }, '=', { val: 4711 }] }] }
-          }
+      const cqnKey = {
+        UPDATE: {
+          entity: { ref: [{ id: 'capire.bookshop.Books', where: [{ ref: ['ID'] }, '=', { val: 4711 }] }] }
         }
-        : cqnWhere
+      }
       expect(UPDATE(Books, 4711))
         .to.eql(UPDATE(Books, { ID: 4711 }))
         .to.eql(UPDATE(Books).byKey(4711))
@@ -761,7 +734,6 @@ describe('cds.ql → cqn', () => {
     before the query is finally executed.
     */
     test('with + data', () => {
-      if (cds.version < '4.1.0') return
       const o = {}
       const q = UPDATE(Foo).data(o).with(`bar-=`, 22)
       o.foo = 11
@@ -808,12 +780,11 @@ describe('cds.ql → cqn', () => {
       expect(DELETE.from(Books).where({ ID: 4711 }))
         .to.eql(DELETE.from(Books).where(`ID=`, 4711))
         .to.eql(cqnWhere)
-      const cqnKey = (cds.version >= '5.6.0') ?
-        {
-          DELETE: {
+      const cqnKey = {
+        DELETE: {
           from: { ref: [{ id: 'capire.bookshop.Books', where: [{ ref: ['ID'] }, '=', { val: 4711 }]}] }
-          },
-        } : cqnWhere
+        },
+      }
 
       expect(DELETE(Books, 4711))
         .to.eql(DELETE(Books, { ID: 4711 }))

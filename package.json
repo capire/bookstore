@@ -11,7 +11,7 @@
     "@capire/orders": "*",
     "@capire/reviews": "*",
     "@sap-cloud-sdk/http-client": "^4",
-    "@sap/cds": ">=5"
+    "@sap/cds": ">=8"
   },
   "devDependencies": {
     "@cap-js/cds-test": ">=0.4.1",

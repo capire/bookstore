@@ -2,7 +2,10 @@ const cds = require('@sap/cds/lib')
 const { GET, POST, DELETE, expect, axios } = cds.test(__dirname)
 
 // Fetch API disallows GET|HEAD requests with body
-if (axios.constructor.name === 'Naxios') it = it.skip
+if (axios.constructor.name === 'Naxios') {
+  const { it } = global
+  global.it = (title) => it(title)
+}
 
 const _unwrap = data => {
   data = data.data ?? data

@@ -2,17 +2,14 @@ const cds = require('@sap/cds/lib')
 const { GET, POST, DELETE, expect, axios } = cds.test(__dirname)
 
 // Fetch API disallows GET|HEAD requests with body
-if (axios.constructor.name === 'Naxios') {
-  const { it } = global
-  global.it = (title) => it(title)
-}
+const FetchAPI = axios.constructor.name === 'Naxios'
 
 const _unwrap = data => {
   data = data.data ?? data
   return Array.isArray(data) ? data : [data]
 }
 
-describe ('GET w/ query in body', () => {
+FetchAPI || describe ('GET w/ query in body', () => {
   it ('serves CQN query objects in body', async () => {
     const { data, books = _unwrap(data) } = await GET ('/hcql/admin', {
       headers: { 'Content-Type': 'application/json' },
@@ -100,7 +97,7 @@ describe ('Sluggified variants', () => {
     expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
-  it ('GET /Books/201 w/ CQL fragment in body' , async () => {
+  FetchAPI || it ('GET /Books/201 w/ CQL fragment in body' , async () => {
     const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201', {
       headers: { 'Content-Type': 'text/plain' },
       data: `{ title, author.name as author }`
@@ -109,7 +106,7 @@ describe ('Sluggified variants', () => {
     expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
-  it ('GET /Books/201 w/ CQN fragment in body' , async () => {
+  FetchAPI || it ('GET /Books/201 w/ CQN fragment in body' , async () => {
     const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201', {
       data: cds.ql `SELECT title, author.name as author` .SELECT
     })
@@ -117,7 +114,7 @@ describe ('Sluggified variants', () => {
     expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
-  it ('GET /Books/201 w/ tail in URL plus CQL/CQN fragments in body' , async () => {
+  FetchAPI || it ('GET /Books/201 w/ tail in URL plus CQL/CQN fragments in body' , async () => {
     const { data: d1, b1 = _unwrap(d1)[0] } = await GET ('/hcql/admin/Books where ID=201', {
       data: cds.ql `SELECT title, author.name as author` .SELECT
     })

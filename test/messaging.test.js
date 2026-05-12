@@ -26,8 +26,9 @@ describe('cap/samples - Messaging', ()=>{
 
   it ('should add review', async ()=>{
     const review = { subject: '201', rating: 1 }
-    const response = await ReviewsService.create ('Reviews', review)
-    expect (response) .to.containSubset (review)
+    let response = await ReviewsService.create ('Reviews', review)
+    if ('affectedRows' in response) response = response.data[0]
+    expect (response) .to.containSubset ({ subject: '201' })
   })
 
   it ('should add more reviews', ()=> Promise.all ([

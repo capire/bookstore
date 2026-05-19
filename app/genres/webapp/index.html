@@ -20,15 +20,17 @@
     data-sap-ui-flexibility-services='[{"connector":"LocalStorageConnector"}]'
     data-sap-ui-resourceroots='{"bookshop.genres":"./"}'></script>
   <script>
-    sap.ui.getCore().attachInit(function () {
-      sap.ui.require(["sap/ui/core/ComponentContainer"], function (ComponentContainer) {
-        new ComponentContainer({
-          name: "bookshop.genres",
-          height: "100%",
-          async: true
-        }).placeAt("content");
+    if (!new URLSearchParams(window.location.search).has("sap-ui-app-id-hint")) {
+      sap.ui.getCore().attachInit(function () {
+        sap.ui.require(["sap/ui/core/ComponentContainer"], function (ComponentContainer) {
+          new ComponentContainer({
+            name: "bookshop.genres",
+            height: "100%",
+            async: true
+          }).placeAt("content");
+        });
       });
-    });
+    }
   </script>
 </head>
 <body class="sapUiBody sapUiSizeCompact" id="content"></body>

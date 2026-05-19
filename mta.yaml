@@ -85,8 +85,37 @@ modules:
       - name: bookstore-html5-repo-host
         parameters:
           content-target: true
-          config:
-            HTML5Runtime_enabled: true
+
+  - name: bookstore-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: bookstore-auth
+        parameters:
+          service-key:
+            name: bookstore-auth-key
+      - name: bookstore-html5-repo-host
+        parameters:
+          service-key:
+            name: bookstore-html5-repo-host-key
+      - name: bookstore-destination-service
+        parameters:
+          content-target: true
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: bookstore-html5-repo-host
+              ServiceInstanceName: bookstore-html5-repo-host
+              ServiceKeyName: bookstore-html5-repo-host-key
+              sap.cloud.service: com.sap.capire.bookstore
+            - Authentication: OAuth2UserTokenExchange
+              Name: bookstore-auth
+              ServiceInstanceName: bookstore-auth
+              ServiceKeyName: bookstore-auth-key
+              sap.cloud.service: com.sap.capire.bookstore
+          existing_destinations_policy: update
+    build-parameters:
+      no-source: true
 
   - name: bookstoreadminauthors
     type: html5
@@ -171,3 +200,24 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-runtime
+  - name: bookstore-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Authentication: NoAuthentication
+                HTML5.DynamicDestination: true
+                HTML5.ForwardAuthToken: true
+                Name: srv-api
+                ProxyType: Internet
+                Type: HTTP
+                URL: ~{srv-api/srv-url}
+            existing_destinations_policy: update
+        version: 1.0.0
+    requires:
+      - name: srv-api

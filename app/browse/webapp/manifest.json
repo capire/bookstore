@@ -2,7 +2,7 @@
   "_version": "1.28.0",
   "sap.cloud": {
     "public": true,
-    "service": "com.sap.capire.bookstore.browse"
+    "service": "com.sap.capire.bookstore"
   },
   "sap.app": {
     "id": "bookshop",

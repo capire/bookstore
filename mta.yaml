@@ -4,6 +4,7 @@ version: 2.0.1
 description: "Shows how to reuse and compose with CAP."
 parameters:
   enable-parallel-deployments: true
+  deploy_mode: html5-repo
 build-parameters:
   before-all:
     - builder: custom
@@ -50,11 +51,88 @@ modules:
           url: ~{srv-url}
           forwardAuthToken: true
       - name: bookstore-auth
+      - name: bookstore-html5-runtime
     provides:
       - name: app-api
         properties:
           app-protocol: ${protocol}
           app-uri: ${default-uri}
+
+  - name: bookstore-app-deployer
+    type: com.sap.application.content
+    path: gen
+    build-parameters:
+      build-result: app/
+      requires:
+        - name: bookstoreadminauthors
+          artifacts:
+            - admin-authors.zip
+          target-path: app/
+        - name: bookstoreadminbooks
+          artifacts:
+            - admin-books.zip
+          target-path: app/
+        - name: bookstorebrowse
+          artifacts:
+            - browse.zip
+          target-path: app/
+        - name: bookstoregenres
+          artifacts:
+            - genres.zip
+          target-path: app/
+    requires:
+      - name: bookstore-auth
+      - name: srv-api
+      - name: bookstore-html5-repo-host
+        parameters:
+          content-target: true
+          config:
+            HTML5Runtime_enabled: true
+
+  - name: bookstoreadminauthors
+    type: html5
+    path: app/admin-authors
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+      supported-platforms:
+        []
+  - name: bookstoreadminbooks
+    type: html5
+    path: app/admin-books
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+      supported-platforms:
+        []
+  - name: bookstorebrowse
+    type: html5
+    path: app/browse
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+      supported-platforms:
+        []
+  - name: bookstoregenres
+    type: html5
+    path: app/genres
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+      supported-platforms:
+        []
 
 resources:
   - name: bookstore-auth
@@ -92,3 +170,14 @@ resources:
       service: enterprise-messaging
       service-plan: default
       path: ./event-mesh.json
+
+  - name: bookstore-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+  - name: bookstore-html5-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime

@@ -1,0 +1,13 @@
+{
+  "name": "genres",
+  "version": "1.0.0",
+  "main": "webapp/index.html",
+  "scripts": {
+    "build": "ui5 build preload --clean-dest",
+    "start": "ui5 serve"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^4",
+    "ui5-task-zipper": "^3"
+  }
+}

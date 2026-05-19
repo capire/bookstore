@@ -28,7 +28,8 @@
 					"action": "display"
 				}
 			}
-		}
+		},
+		"i18n": "i18n/i18n.properties"
 	},
 	"sap.ui5": {
 		"dependencies": {

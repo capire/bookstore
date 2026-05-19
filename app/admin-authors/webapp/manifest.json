@@ -28,7 +28,7 @@
         "intent1": {
           "signature": {
             "parameters": {
-              "Books.author.ID":{
+              "Books.author.ID": {
                 "renameTo": "ID"
               }
             },
@@ -128,7 +128,7 @@
   "sap.ui": {
     "technology": "UI5",
     "fullWidth": false,
-    "deviceTypes":{
+    "deviceTypes": {
       "desktop": true,
       "tablet": true,
       "phone": true

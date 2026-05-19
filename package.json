@@ -38,7 +38,8 @@
       },
       "[production]": {
         "auth": "xsuaa"
-      }
+      },
+      "html5-repo": true
     },
     "log": {
       "service": true

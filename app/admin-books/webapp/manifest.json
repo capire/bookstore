@@ -23,7 +23,7 @@
         "crossNavigation": {
             "inbounds": {
                 "intent1": {
-                        "signature": {
+                    "signature": {
                         "parameters": {},
                         "additionalParameters": "allowed"
                     },
@@ -35,6 +35,9 @@
                     "icon": "sap-icon://course-book"
                 }
             }
+        },
+        "applicationVersion": {
+            "version": "1.0.0"
         }
     },
     "sap.ui5": {
@@ -53,7 +56,7 @@
                 "settings": {
                     "synchronizationMode": "None",
                     "operationMode": "Server",
-                    "autoExpandSelect" : true,
+                    "autoExpandSelect": true,
                     "earlyRequests": true,
                     "groupProperties": {
                         "default": {
@@ -87,13 +90,13 @@
                     "id": "BooksList",
                     "name": "sap.fe.templates.ListReport",
                     "options": {
-                        "settings" : {
-                            "entitySet" : "Books",
+                        "settings": {
+                            "entitySet": "Books",
                             "initialLoad": true,
-                            "navigation" : {
-                                "Books" : {
-                                    "detail" : {
-                                        "route" : "BooksDetails"
+                            "navigation": {
+                                "Books": {
+                                    "detail": {
+                                        "route": "BooksDetails"
                                     }
                                 }
                             }
@@ -105,12 +108,12 @@
                     "id": "BooksDetailsList",
                     "name": "sap.fe.templates.ObjectPage",
                     "options": {
-                        "settings" : {
-                            "entitySet" : "Books",
-                            "navigation" : {
-                                "Authors" : {
-                                    "detail" : {
-                                        "route" : "AuthorsDetails"
+                        "settings": {
+                            "entitySet": "Books",
+                            "navigation": {
+                                "Authors": {
+                                    "detail": {
+                                        "route": "AuthorsDetails"
                                     }
                                 }
                             }
@@ -122,8 +125,8 @@
                     "id": "AuthorsDetailsList",
                     "name": "sap.fe.templates.ObjectPage",
                     "options": {
-                        "settings" : {
-                            "entitySet" : "Authors"
+                        "settings": {
+                            "entitySet": "Authors"
                         }
                     }
                 }

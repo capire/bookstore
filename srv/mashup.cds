@@ -29,6 +29,11 @@ using from '@capire/orders/app/fiori';
 using from '@capire/data-viewer';
 using from '@capire/common';
 
+extend CatalogService.Books with actions {
+  @title: '{i18n>Order}'
+  action order(quantity: Integer);
+}
+
 
 // Restrict admin access to AdminService
 annotate AdminService with @requires:'admin';

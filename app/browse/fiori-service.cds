@@ -28,6 +28,12 @@ annotate CatalogService.Books with @(UI : {
             Label : '{i18n>Currency}'
         },
     ]},
+    Identification    : [{
+        $Type : 'UI.DataFieldForAction',
+        Action : 'CatalogService.order',
+        Label : '{i18n>Order}',
+        InvocationGrouping : #Isolated
+    }, ],
 });
 
 
@@ -53,5 +59,11 @@ annotate CatalogService.Books with @(UI : {
         {Value : genre},
         {Value : price},
         {Value : currency.symbol},
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'CatalogService.order',
+            Label : '{i18n>Order}',
+            InvocationGrouping : #Isolated
+        },
     ]
 }, );

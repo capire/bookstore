@@ -1,10 +1,18 @@
 {
+  "welcomeFile": "/bookshop/index.html",
   "routes": [
     {
-      "source": "^/(.*)$",
-      "target": "$1",
+      "source": "^/(odata|admin)/(.*)$",
+      "target": "/$1/$2",
       "destination": "srv-api",
+      "authenticationType": "xsuaa",
       "csrfProtection": true
+    },
+    {
+      "source": "^(/.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
     }
   ]
 }

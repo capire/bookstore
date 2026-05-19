@@ -11,7 +11,7 @@
     },
     "dataSources": {
       "CatalogService": {
-        "uri": "browse/",
+        "uri": "/odata/v4/browse/",
         "type": "OData",
         "settings": {
           "odataVersion": "4.0"

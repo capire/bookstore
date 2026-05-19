@@ -10,7 +10,16 @@
 	<script>
 		window["sap-ushell-config"] = {
 			defaultRenderer: "fiori2",
-			applications: {},
+			renderers: {
+				fiori2: {
+					componentData: {
+						config: {
+							enableSearch: false
+						}
+					}
+				}
+			},
+			applications: {}
 		};
 	</script>
 
@@ -19,9 +28,11 @@
 		data-sap-ui-libs="sap.m, sap.ushell, sap.collaboration, sap.ui.layout" data-sap-ui-compatVersion="edge"
 		data-sap-ui-theme="sap_horizon"></script>
 	<script>
-		sap.ui.getCore().attachInit(() =>
-			sap.ushell.Container.createRenderer().placeAt("content")
-		);
+		sap.ui.getCore().attachInit(() => {
+			sap.ushell.Container
+				.createRenderer("fiori2", true)
+				.then(renderer => renderer.placeAt("content"));
+		});
 	</script>
 </head>
 

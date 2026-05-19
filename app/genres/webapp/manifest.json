@@ -1,5 +1,9 @@
 {
 	"_version": "1.8.0",
+	"sap.cloud": {
+		"public": true,
+		"service": "com.sap.capire.bookstore.genres"
+	},
 	"sap.app": {
 		"id": "genres",
 		"type": "application",

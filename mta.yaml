@@ -1,6 +1,6 @@
 _schema-version: 3.3.0
 ID: capire.bookstore
-version: 2.0.1
+version: 2.0.2
 description: "Shows how to reuse and compose with CAP."
 parameters:
   enable-parallel-deployments: true
@@ -27,7 +27,6 @@ modules:
     requires:
       - name: bookstore-auth
       - name: bookstore-db
-      - name: bookstore-messaging
 
   - name: bookstore-db-deployer
     type: hdb
@@ -155,8 +154,6 @@ resources:
             description: 'generated'
             role-template-references:
               - '$XSAPPNAME.admin'
-    processed-after:
-      - bookstore-messaging
     requires:
       - name: app-api
   - name: bookstore-db
@@ -164,13 +161,6 @@ resources:
     parameters:
       service: hana
       service-plan: hdi-shared
-  - name: bookstore-messaging
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: enterprise-messaging
-      service-plan: default
-      path: ./event-mesh.json
-
   - name: bookstore-html5-repo-host
     type: org.cloudfoundry.managed-service
     parameters:

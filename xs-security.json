@@ -3,17 +3,6 @@
     {
       "name": "$XSAPPNAME.admin",
       "description": "admin"
-    },
-    {
-      "name": "$XSAPPNAME.emcallback",
-      "description": "Enterprise-Messaging Callback Access",
-      "grant-as-authority-to-apps": [
-        "$XSSERVICENAME(bookstore-messaging)"
-      ]
-    },
-    {
-      "name": "$XSAPPNAME.emmanagement",
-      "description": "Enterprise-Messaging Management Access"
     }
   ],
   "attributes": [],
@@ -26,9 +15,5 @@
       ],
       "attribute-references": []
     }
-  ],
-  "authorities": [
-    "$XSAPPNAME.emmanagement",
-    "$XSAPPNAME.mtcallback"
   ]
 }

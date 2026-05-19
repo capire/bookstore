@@ -2,8 +2,8 @@
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": "^/?odata/(.*)$",
-      "target": "/odata/$1",
+      "source": "^/?(odata|admin)/(.*)$",
+      "target": "/$1/$2",
       "destination": "srv-api",
       "authenticationType": "xsuaa",
       "csrfProtection": true

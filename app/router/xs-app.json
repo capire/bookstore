@@ -1,6 +1,11 @@
 {
-  "welcomeFile": "/bookshop/index.html",
+  "welcomeFile": "/index.html",
   "routes": [
+    {
+      "source": "^/(index\\.html|appconfig/.*)$",
+      "localDir": "resources",
+      "authenticationType": "xsuaa"
+    },
     {
       "source": "^/(odata|admin)/(.*)$",
       "target": "/$1/$2",

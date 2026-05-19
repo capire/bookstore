@@ -26,7 +26,8 @@
 	<script id="sap-ushell-bootstrap" src="https://ui5.sap.com/test-resources/sap/ushell/bootstrap/sandbox.js"></script>
 	<script id="sap-ui-bootstrap" src="https://ui5.sap.com/resources/sap-ui-core.js"
 		data-sap-ui-libs="sap.m, sap.ushell, sap.collaboration, sap.ui.layout" data-sap-ui-compatVersion="edge"
-		data-sap-ui-theme="sap_horizon"></script>
+		data-sap-ui-theme="sap_horizon"
+		data-sap-ui-flexibilityServices='[{"connector": "LocalStorageConnector"}]'></script>
 	<script>
 		sap.ui.getCore().attachInit(() => {
 			sap.ushell.Container

@@ -16,7 +16,8 @@
   "devDependencies": {
     "@cap-js/cds-test": "^1",
     "@cap-js/sqlite": ">=1",
-    "@sap/cds-dk": "^9.9.1"
+    "@sap/cds-dk": "^9.9.1",
+    "mbt": "^1.2.49"
   },
   "scripts": {
     "start": "cds-serve",

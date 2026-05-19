@@ -4,7 +4,7 @@
   "description": "Shows how to reuse and compose with CAP.",
   "repository": "https://github.com/capire/bookstore",
   "dependencies": {
-    "@cap-js/hana": ">=1",
+    "@cap-js/hana": "^2",
     "@capire/bookshop": "*",
     "@capire/common": "*",
     "@capire/data-viewer": "*",
@@ -26,8 +26,6 @@
   },
   "cds": {
     "requires": {
-      "ReviewsService": "odata",
-      "OrdersService": "odata",
       "messaging": true,
       "db": {
         "[development]": {

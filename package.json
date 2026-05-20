@@ -11,17 +11,23 @@
     "@capire/orders": "*",
     "@capire/reviews": "*",
     "@sap/cds": ">=8",
-    "@sap/xssec": "^4"
+    "@sap/xssec": "^4",
+    "tsx": "^4"
   },
   "devDependencies": {
     "@cap-js/cds-test": "^1",
     "@cap-js/sqlite": ">=1",
     "@sap/cds-dk": "^9.9.1",
-    "mbt": "^1.2.49"
+    "mbt": "^1.2.49",
+    "@cap-js/cds-types": "^0.16.0",
+    "@types/node": "^24.0.0",
+    "typescript": "^6.0.0",
+    "@cap-js/cds-typer": ">=0.1"
   },
   "scripts": {
     "start": "cds-serve",
     "watch": "cds watch",
+    "typecheck": "tsc --noEmit",
     "chest": "chest",
     "jest": "jest",
     "test": "chest"
@@ -45,5 +51,8 @@
     "log": {
       "service": true
     }
+  },
+  "imports": {
+    "#cds-models/*": "./@cds-models/*/index.js"
   }
 }

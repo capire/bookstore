@@ -1,1 +1,2 @@
-require ('./mashup.js')
+require('tsx/cjs')
+require('./server.ts')

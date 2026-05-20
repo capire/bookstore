@@ -1,3 +1,4 @@
+require('tsx/cjs')
 const cds = require('@sap/cds')
 const { expect } = cds.test
 
@@ -62,7 +63,7 @@ describe('bookstore mashup handlers', () => {
       }
     }
 
-    await require('../srv/mashup/catalog-orders')({ CatalogService, OrdersService, db, Books })
+    await require('../srv/mashup/catalog-orders.ts')({ CatalogService, OrdersService, db, Books })
 
     const req = requestMock({
       params: [{ ID: 201 }],
@@ -100,7 +101,7 @@ describe('bookstore mashup handlers', () => {
       }
     })
 
-    await require('../srv/mashup/catalog-orders')({
+    await require('../srv/mashup/catalog-orders.ts')({
       CatalogService,
       OrdersService: {},
       db: {},
@@ -145,7 +146,7 @@ describe('bookstore mashup handlers', () => {
     })
 
     const Books = { name: 'Books' }
-    await require('../srv/mashup/catalog-reviews')({ CatalogService, ReviewsService, Books })
+    await require('../srv/mashup/catalog-reviews.ts')({ CatalogService, ReviewsService, Books })
 
     const delegated = hooks.on['READ:Books/reviews']({
       params: [201],
@@ -174,7 +175,7 @@ describe('bookstore mashup handlers', () => {
       }
     }
 
-    await require('../srv/mashup/orders-events')({ OrdersService })
+    await require('../srv/mashup/orders-events.ts')({ OrdersService })
 
     await hooks.after['CREATE:OrdersNoDraft']({
       Items: [
@@ -219,7 +220,7 @@ describe('bookstore mashup handlers', () => {
     })
 
     const OrdersService = serviceMock(hooks)
-    await require('../srv/mashup/orders-stock')({ OrdersService, Books })
+    await require('../srv/mashup/orders-stock.ts')({ OrdersService, Books })
 
     const result = hooks.on.OrderChanged({
       event: 'OrderChanged',

@@ -122,6 +122,21 @@ jobs:
 
           exit "$deploy_status"
 
+      - name: Publish application URL
+        if: success()
+        run: |
+          app_url="$(cf app bookstore | awk '/routes:/{print $2; exit}')"
+          if [ -n "$app_url" ]; then
+            echo "Application URL: https://${app_url}"
+            {
+              echo "### Deployment"
+              echo ""
+              echo "- Application URL: https://${app_url}"
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No route found for application bookstore."
+          fi
+
       - name: Download logs and abort failed MTA operation
         if: failure() && steps.deploy.outputs.operation_id != ''
         run: |

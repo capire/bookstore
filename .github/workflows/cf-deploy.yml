@@ -106,4 +106,34 @@ jobs:
           CF_SPACE: ${{ secrets.CF_SPACE }}
 
       - name: Deploy
-        run: cf deploy mta_archives/*.mtar -f --version-rule ALL
+        id: deploy
+        run: |
+          set +e
+          cf deploy mta_archives/*.mtar -f --version-rule ALL 2>&1 | tee deploy.log
+          deploy_status=${PIPESTATUS[0]}
+          set -e
+
+          operation_id="$(sed -n 's/^Operation ID: //p' deploy.log | tail -1)"
+          if [ -z "$operation_id" ]; then
+            operation_id="$(sed -n 's/.*cf deploy -i \([^ ]*\) -a abort.*/\1/p' deploy.log | tail -1)"
+          fi
+
+          echo "operation_id=$operation_id" >> "$GITHUB_OUTPUT"
+
+          exit "$deploy_status"
+
+      - name: Download logs and abort failed MTA operation
+        if: failure() && steps.deploy.outputs.operation_id != ''
+        run: |
+          cf dmol -i "${{ steps.deploy.outputs.operation_id }}" || true
+          cf deploy -i "${{ steps.deploy.outputs.operation_id }}" -a abort || true
+
+      - name: Upload MTA operation logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mta-operation-logs-${{ github.run_id }}
+          path: |
+            deploy.log
+            mta-op-*
+          if-no-files-found: warn

@@ -141,13 +141,13 @@ describe ('DELETE', () => {
   it ('deletes single entities with affected rows as result', async () => {
     let res = await DELETE `/hcql/admin/Books/201`
     expect(res.status).to.equal(200)
-    expect(res.data.data ?? res.data).to.equal(1) // 1 affected row
+    expect(res.data.affected ?? res.data.data ?? res.data).to.equal(1) // 1 affected row
   })
 
   it ('deletes multiple entities with affected rows as result', async () => {
     const { DELETE } = cds.ql
     let res = await POST ('/hcql/admin', DELETE.from `Books` .where `author.name = 'Edgar Allan Poe'`)
     expect(res.status).to.equal(200)
-    expect(res.data.data ?? res.data).to.equal(2) // 2 affected rows
+    expect(res.data.affected ?? res.data.data ?? res.data).to.equal(2) // 2 affected rows
   })
 })

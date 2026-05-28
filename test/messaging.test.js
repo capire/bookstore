@@ -31,12 +31,12 @@ describe('cap/samples - Messaging', ()=>{
     expect (response) .to.containSubset ({ subject: '201' })
   })
 
-  it ('should add more reviews', async () => {
-    await ReviewsService.create ('Reviews', { subject: '201', reviewer: `Alice`, rating: 2 })
-    await ReviewsService.create ('Reviews', { subject: '201', reviewer: `Bob`,   rating: 3 })
-    await ReviewsService.create ('Reviews', { subject: '201', reviewer: `Carol`, rating: 4 })
-    await ReviewsService.create ('Reviews', { subject: '201', reviewer: `Dave`,  rating: 5 })
-  })
+  it ('should add more reviews', ()=> Promise.all ([
+    ReviewsService.create ('Reviews', { subject: '201', reviewer: `Alice`, rating: 2 }),
+    ReviewsService.create ('Reviews', { subject: '201', reviewer: `Bob`,   rating: 3 }),
+    ReviewsService.create ('Reviews', { subject: '201', reviewer: `Carol`, rating: 4 }),
+    ReviewsService.create ('Reviews', { subject: '201', reviewer: `Dave`,  rating: 5 }),
+  ]))
 
   it ('should have received all messages', async()=> {
     await new Promise((done)=>setImmediate(done))

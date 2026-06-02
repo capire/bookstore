@@ -98,7 +98,21 @@ annotate AdminService.Books.texts with {
 // Add Value Help for Locales
 annotate AdminService.Books.texts {
 	locale @(
-		ValueList.entity:'Languages', Common.ValueListWithFixedValues, //show as drop down, not a dialog
+		Common.ValueList : {
+			CollectionPath: 'Languages',
+			Parameters                  : [
+				{
+					$Type            : 'Common.ValueListParameterDisplayOnly',
+					ValueListProperty: 'code',
+				},
+				{
+					$Type            : 'Common.ValueListParameterInOut',
+					LocalDataProperty:  locale,
+					ValueListProperty: 'code',
+				}
+			],
+		},
+		Common.ValueListWithFixedValues, //show as drop down, not a dialog
 	)
 }
 // In addition we need to expose Languages through AdminService as a target for ValueList

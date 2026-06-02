@@ -107,6 +107,7 @@
                     "options": {
                         "settings" : {
                             "entitySet" : "Books",
+                            "editableHeaderContent": false,
                             "navigation" : {
                                 "Authors" : {
                                     "detail" : {

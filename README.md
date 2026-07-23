@@ -1,7 +1,5 @@
 # @capire/bookstore
 
-[![REUSE status](https://api.reuse.software/badge/github.com/capire/bookstore)](https://api.reuse.software/info/github.com/capire/bookstore)
-
 A composite app of
 
 - [bookshop](https://github.com/capire/bookshop) – a simple [primer app](https://cap.cloud.sap/docs/get-started/in-a-nutshell)
@@ -39,4 +37,4 @@ To deploy the microservices separately in a _modulith_ deployment, refer to the 
 
 ## License
 
-Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSE) file. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/capire/bookstore).
+Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSE) file.

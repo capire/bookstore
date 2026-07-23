@@ -35,11 +35,11 @@ cds.once ('served', async ()=>{
   //
   CatalogService.before ('submitOrder', async (req) => {
     const { book, quantity, buyer = req.user.id } = req.data
-    const { title, price } = await db.read (Books, book, b => { b.title, b.price })
+    const { title, price, currency } = await db.read (Books, book, b => { b.title, b.price, b.currency(c => c.code) })
     await OrdersService.create ('OrdersNoDraft').entries({
       OrderNo: 'Order at '+ (new Date).toLocaleString(),
       Items: [{ product:{ID:`${book}`}, title, price, quantity }],
-      buyer, createdBy: buyer
+      buyer, createdBy: buyer, currency
     })
   })
 
@@ -48,8 +48,8 @@ cds.once ('served', async ()=>{
   //
   ReviewsService.on ('AverageRatings.Changed', (msg) => {
     console.debug ('> received:', msg.event, msg.data) // eslint-disable-line no-console
-    const { subject, count, rating } = msg.data
-    return UPDATE(Books,subject).with({ numberOfReviews:count, rating })
+    const { subject, reviews, rating } = msg.data
+    return UPDATE (Books, subject) .with ({ reviews, rating })
   })
 
   //

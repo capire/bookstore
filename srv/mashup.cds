@@ -8,11 +8,11 @@
 //
 //  Extend Books with access to Reviews and average ratings
 //
-using { sap.capire.reviews.api.ReviewsService as reviews } from '@capire/reviews';
+using { ReviewsService.AverageRatings } from '@capire/reviews';
 using { sap.capire.bookshop.Books } from '@capire/bookshop';
 extend Books with {
-  rating  : type of reviews.AverageRatings:rating; // average rating
-  numberOfReviews : Integer @title : '{i18n>NumberOfReviews}';
+  rating  : type of AverageRatings:rating; // average rating
+  reviews : Integer @title : '{i18n>NumberOfReviews}';
 }
 
 
@@ -28,3 +28,7 @@ extend Orders:Items with {
 using from '@capire/orders/app/fiori';
 using from '@capire/data-viewer';
 using from '@capire/common';
+
+
+// Restrict admin access to AdminService
+annotate AdminService with @requires:'admin';

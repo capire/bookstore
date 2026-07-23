@@ -4,39 +4,31 @@
   "description": "Shows how to reuse and compose with CAP.",
   "repository": "https://github.com/capire/bookstore",
   "dependencies": {
+    "@cap-js/hana": ">=1",
     "@capire/bookshop": "*",
-    "@capire/reviews": "*",
-    "@capire/orders": "*",
     "@capire/common": "*",
     "@capire/data-viewer": "*",
-    "@cap-js/hana": ">=1",
-    "@sap-cloud-sdk/http-client": "^4",
-    "@sap-cloud-sdk/resilience": "^4",
-    "@sap/cds": ">=5",
-    "express": "^4.17.1"
+    "@capire/orders": "*",
+    "@capire/reviews": "*",
+    "@sap/cds": ">=8"
   },
   "devDependencies": {
+    "@cap-js/cds-test": "^1",
     "@cap-js/sqlite": ">=1"
   },
   "scripts": {
     "start": "cds-serve",
-    "watch": "cds watch"
+    "watch": "cds watch",
+    "chest": "chest",
+    "jest": "jest",
+    "test": "chest"
   },
   "cds": {
     "requires": {
-      "ReviewsService": {
-        "service": "sap.capire.reviews.api.ReviewsService",
-        "model": "@capire/reviews",
-        "kind": "odata"
-      },
-      "OrdersService": {
-        "service": "sap.capire.orders.api.OrdersService",
-        "model": "@capire/orders",
-        "kind": "odata"
-      },
+      "ReviewsService": "odata",
+      "OrdersService": "odata",
       "messaging": true,
-      "db": true,
-      "db-ext": {
+      "db": {
         "[development]": {
           "model": "db/sqlite"
         },
@@ -45,6 +37,8 @@
         }
       }
     },
-    "log": { "service": true }
+    "log": {
+      "service": true
+    }
   }
 }

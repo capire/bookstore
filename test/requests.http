@@ -32,18 +32,24 @@ Content-Type: application/json
 GET {{bookshop}}/browse/Books/201/reviews?
 &$select=rating,date,title
 &$top=3
-
 ###
 
 GET {{bookshop}}/browse/Books(201)?
 &$select=ID,title,rating
 &$expand=reviews
-
 ###
 
 GET {{bookshop}}/browse/Books?
 &$select=title,author&$expand=currency
 Accept-Language: de
+###
+
+POST {{bookshop}}/admin/Books
+Authorization: Basic alice:
+Content-Type: application/json
+
+{ }
+
 
 #################################################
 #

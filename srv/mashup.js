@@ -35,11 +35,11 @@ cds.once ('served', async ()=>{
   //
   CatalogService.before ('submitOrder', async (req) => {
     const { book, quantity, buyer = req.user.id } = req.data
-    const { title, price } = await db.read (Books, book, b => { b.title, b.price })
+    const { title, price, currency } = await db.read (Books, book, b => { b.title, b.price, b.currency(c => c.code) })
     await OrdersService.create ('OrdersNoDraft').entries({
       OrderNo: 'Order at '+ (new Date).toLocaleString(),
       Items: [{ product:{ID:`${book}`}, title, price, quantity }],
-      buyer, createdBy: buyer
+      buyer, createdBy: buyer, currency
     })
   })
 

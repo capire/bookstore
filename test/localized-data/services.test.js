@@ -5,12 +5,12 @@ cds.User.default = cds.User.Privileged // hard core monkey patch
 describe('cap/samples - Localized Data', () => {
 
   it('serves localized $metadata documents', async () => {
-    const { data } = await GET(`/browse/$metadata?sap-language=de`, { headers: { 'accept-language': 'de' }})
+    const { data } = await GET(`odata/v4/browse/$metadata?sap-language=de`, { headers: { 'accept-language': 'de' }})
     expect(data).to.contain('<Annotation Term="Common.Label" String="Währung"/>')
   })
 
   it('supports accept-language header', async () => {
-    const { data } = await GET(`/browse/Books?$select=title,author`, {
+    const { data } = await GET(`odata/v4/browse/Books?$select=title,author`, {
       headers: { 'Accept-Language': 'de' },
     })
     expect(data.value).to.containSubset([
@@ -23,7 +23,7 @@ describe('cap/samples - Localized Data', () => {
   })
 
   it('supports queries with $expand', async () => {
-    const { data } = await GET(`/browse/Books?&$select=title,author&$expand=currency`, {
+    const { data } = await GET(`/odata/v4/browse/Books?&$select=title,author&$expand=currency`, {
       headers: { 'Accept-Language': 'de' },
     })
     expect(data.value).to.containSubset([
@@ -65,7 +65,7 @@ describe('cap/samples - Localized Data', () => {
   })
 
   it('supports @cds.localized:false', async ()=>{
-    const { data } = await GET(`/browse/BooksSans?&$select=title,localized_title&$expand=currency&$filter=locale eq 'de' or locale eq null`, {
+    const { data } = await GET(`/odata/v4/browse/BooksSans?&$select=title,localized_title&$expand=currency&$filter=locale eq 'de' or locale eq null`, {
       headers: { 'Accept-Language': 'de' },
     })
     expect(data.value).to.containSubset([

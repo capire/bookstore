@@ -48,5 +48,18 @@ annotate AdminService.Authors with {
   lifetime @Common.Label : '{i18n>Lifetime}'
 }
 
+annotate AdminService.Authors with @(
+  Common.SideEffects : {
+    SourceProperties : [
+      'dateOfBirth',
+      'dateOfDeath'
+    ],
+    TargetProperties : [
+      'age',
+      'lifetime'
+    ]
+  }
+);
+
 // Workaround for Fiori popup for asking user to enter a new UUID on Create
 annotate AdminService.Authors with { ID @Core.Computed; }

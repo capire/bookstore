@@ -50,7 +50,7 @@ annotate CatalogService.Books with @(UI : {
             Value : author,
             Label : '{i18n>Author}'
         },
-        {Value : genre.name},
+        {Value : genre},
         {Value : price},
         {Value : currency.symbol},
     ]

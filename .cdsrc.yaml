@@ -1,3 +1,0 @@
-fiori:
-  bypass_draft: true
-  direct_crud: true # obsolete with cds10

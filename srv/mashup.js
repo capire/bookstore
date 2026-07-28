@@ -39,7 +39,8 @@ cds.once ('served', async ()=>{
     await OrdersService.create ('Orders').entries({
       OrderNo: 'Order at '+ (new Date).toLocaleString(),
       Items: [{ product:{ID:`${book}`}, title, price, quantity }],
-      buyer, createdBy: buyer, currency
+      buyer, createdBy: buyer, currency,
+      IsActiveEntity: true
     })
   })
 

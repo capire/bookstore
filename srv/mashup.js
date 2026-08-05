@@ -19,15 +19,43 @@ cds.once ('served', async ()=>{
 
   // reflect entity definitions used below...
   const { Books } = cds.entities ('sap.capire.bookshop')
+  const { Reviews } = cds.entities ('sap.capire.reviews')
 
-  //
-  // Delegate requests to read reviews to the ReviewsService
-  // Note: prepend is neccessary to intercept generic default handler
-  //
-  CatalogService.prepend (srv => srv.on ('READ', 'Books/reviews', (req) => {
-    console.debug ('> delegating request to ReviewsService') // eslint-disable-line no-console
-    const [id] = req.params, { columns, limit } = req.query.SELECT
-    return ReviewsService.read ('Reviews',columns).limit(limit).where({subject:String(id)})
+  CatalogService.prepend (() => CatalogService.on ('READ', '_Reviews', async (req) => {
+    req.error(451, 'Cross-service data access not allowed')
+  }))
+
+  CatalogService.prepend (() => CatalogService.on ('READ', 'Books', async (req, next) => {
+    if(!req.params[0]?.ID) return next()
+    const [{ID}] = req.params,
+      { columns, limit } = req.query.SELECT
+
+    const isWildcard = !columns || columns[0] === '*' || columns[0]?.ref?.[0] === '*'
+    let _columns = isWildcard ? Object.keys(Books.elements).filter(x=>x!='reviews') : columns.filter(x=>x.ref!='reviews')
+    const books = await SELECT.from(Books,ID).columns(_columns).limit(limit)
+    if (!books) return books
+
+    const wantReviews = isWildcard || columns.some(x=>x.ref=='reviews')
+    if(wantReviews) {
+      let reviewColumns = columns?.filter(X => Reviews.elements[X.ref?.[0]])
+      if(!reviewColumns?.length) reviewColumns = ['*']
+      books.reviews = await ReviewsService.read('Reviews')
+        .where({ subject: `${ID}` })
+        .columns(reviewColumns)
+    }
+    return books
+  }))
+
+  CatalogService.prepend (() => CatalogService.on ('READ', 'Books/reviews', async (req, next) => {
+    if(!req.params[0]?.ID) return next()
+    const [{ID}] = req.params,
+      { columns, limit } = req.query.SELECT
+
+    return ReviewsService.read('Reviews')
+      .where({ subject: `${ID}` })
+      .columns(columns)
+      .limit(limit)
+
   }))
 
   //

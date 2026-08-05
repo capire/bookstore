@@ -1,0 +1,45 @@
+@bookstore = http://localhost:4004
+@reviews = http://localhost:4005
+
+### Read reviews directly - requires ReviewsService @restrict:[ { grant:'READ', to:'any' } ]
+GET {{reviews}}/odata/v4/reviews/Reviews
+
+### Read re-exposed reviews - should fail
+GET {{bookstore}}/odata/v4/browse/_Reviews
+
+### Request book 201
+GET {{bookstore}}/odata/v4/browse/Books(201)
+
+### Request rating,title of book 201
+GET {{bookstore}}/odata/v4/browse/Books(201)?
+&$select=rating,title
+
+### Request rating,title and reviews of book 201
+GET {{bookstore}}/odata/v4/browse/Books(201)?
+&$select=rating,title
+&$expand=reviews
+
+### Request rating,title and reviews of book 201
+GET {{bookstore}}/odata/v4/browse/Books(201)?
+&$select=rating,title,reviews
+
+### Request title of book 201
+GET {{bookstore}}/odata/v4/browse/Books(ID=201)/title
+
+### Request the reviews of book 201
+GET {{bookstore}}/odata/v4/browse/Books(ID=201)/reviews?
+&$top=2
+
+### Request subject of the reviews of book 201
+GET {{bookstore}}/odata/v4/browse/Books(ID=201)/reviews?
+&$select=subject
+
+### Request subject of the top 2 reviews of book 201
+GET {{bookstore}}/odata/v4/browse/Books(ID=201)/reviews?
+&$select=subject
+&$top=2
+
+### Request rating,title and reviews of book 201
+GET {{bookstore}}/odata/v4/browse/Books?
+&$select=rating,title
+&$expand=reviews

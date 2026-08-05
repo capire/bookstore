@@ -10,11 +10,21 @@
 //
 using { ReviewsService.AverageRatings } from '@capire/reviews';
 using { sap.capire.bookshop.Books } from '@capire/bookshop';
-extend Books with {
-  rating  : type of AverageRatings:rating; // average rating
-  reviews : Integer @title : '{i18n>NumberOfReviews}';
+using { sap.capire.reviews.Reviews } from '@capire/bookshop';
+using { CatalogService } from '@capire/bookshop';
+
+extend service CatalogService with {
+  @cds.persistence.skip
+  entity _Reviews as projection on Reviews;
 }
 
+extend CatalogService.Books with columns {
+  reviews : Association to many CatalogService._Reviews on reviews.subject = $self.ID
+}
+
+extend Books with {
+  rating  : type of AverageRatings:rating; // average rating
+}
 
 //
 //  Extend Orders with Books as Products

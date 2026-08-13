@@ -9,8 +9,7 @@
     "@capire/common": "*",
     "@capire/data-viewer": "*",
     "@capire/orders": "*",
-    "@capire/reviews": "*",
-    "@sap/cds": ">=8"
+    "@capire/reviews": "*"
   },
   "devDependencies": {
     "@cap-js/cds-test": "^1",

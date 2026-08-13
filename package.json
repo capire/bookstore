@@ -4,13 +4,13 @@
   "description": "Shows how to reuse and compose with CAP.",
   "repository": "https://github.com/capire/bookstore",
   "dependencies": {
+    "@sap/cds": ">=10",
     "@cap-js/hana": ">=1",
     "@capire/bookshop": "*",
     "@capire/common": "*",
     "@capire/data-viewer": "*",
     "@capire/orders": "*",
-    "@capire/reviews": "*",
-    "@sap/cds": ">=8"
+    "@capire/reviews": "*"
   },
   "devDependencies": {
     "@cap-js/cds-test": "^1",
@@ -36,6 +36,9 @@
           "model": "db/hana"
         }
       }
+    },
+    "fiori": {
+      "draft_new_action": true
     },
     "log": {
       "service": true

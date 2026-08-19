@@ -39,8 +39,8 @@ describe('cap/samples - Messaging', ()=>{
   ]))
 
   it ('should have received all messages', async()=> {
-    // wait for async messaging event handlers to complete after all creates
-    await new Promise((done)=>setTimeout(done, 1000))
+    // wait for task queue processor to finish
+    await new Promise((done)=>setTimeout(done, 22))
     expect(count).equals(received.length).equals(5)
     expect(received.map(m=>m.data)).to.deep.equal([
       { subject: '201', reviews: 1, rating: 1.0 },

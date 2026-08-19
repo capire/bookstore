@@ -41,7 +41,8 @@ describe('cap/samples - Messaging', ()=>{
   ]))
 
   it ('should have received all messages', async()=> {
-    await new Promise((done)=>setImmediate(done))
+    // wait for async messaging event handlers to complete after all creates
+    await new Promise((done)=>setTimeout(done, 1000))
     expect(count).equals(received.length).equals(5)
     expect(received.map(m=>m.data)).to.deep.equal([
       { subject: '201', reviews: 1, rating: 1.0 },

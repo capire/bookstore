@@ -4,8 +4,6 @@ cds.User.default = cds.User.Privileged // hard core monkey patch
 
 describe('cap/samples - Messaging', ()=>{
 
-  afterAll(() => cds.disconnect())
-
   it ('should bootstrap sqlite in-memory db', async()=>{
     await cds.delete `sap.capire.reviews.Reviews`
     expect (cds.model) .not.undefined

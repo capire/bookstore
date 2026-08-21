@@ -114,8 +114,8 @@ describe('cap/samples - Hierarchical Data', ()=>{
 
 
 	it ('supports cascaded deletes', async()=>{
-		const affectedRows = await DELETE.from (Cats) .where ({ID:[102,106]})
-		expect (affectedRows) .to.be.greaterThan (0)
+		const res = await DELETE.from (Cats) .where ({ID:[102,106]})
+		expect (res.affected ?? res) .to.be.greaterThan (0)
 		let cats = await SELECT`ID,name`.from(Cats)
 		expect(cats).to.eql ([
 			{ ID:100, name:'Some Cats...' },

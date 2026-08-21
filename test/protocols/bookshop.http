@@ -1,25 +1,25 @@
 @server = http://localhost:4004
 @me = Authorization: Basic {{$processEnv USER}}:
+@alice = Authorization: Basic alice:
 
 
 ### ------------------------------------------------------------------------
 # Get service info
-GET {{server}}/browse
+GET {{server}}/odata/v4/browse
 {{me}}
 
 
 ### ------------------------------------------------------------------------
 # Get $metadata document
-GET {{server}}/browse/$metadata
+GET {{server}}/odata/v4/browse/$metadata
 {{me}}
 
 
 ### ------------------------------------------------------------------------
 # Browse Books as any user
-GET {{server}}/browse/ListOfBooks?
-  # &$select=title,stock
-  &$expand=genre
-  # &sap-language=de
+GET {{server}}/odata/v4/browse/ListOfBooks?
+  #&$select=title,stock,genre,currency
+  #&sap-language=de
 {{me}}
 
 
@@ -73,13 +73,13 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANwAAADcCAYAAAAbWs+BAAAGwElEQVR4Ae
 
 ### ------------------------------------------------------------------------
 # Reading image from from the server directly
-GET {{server}}/browse/Books(2)/image
+GET {{server}}/odata/v4/browse/Books(2)/image
 
 
 ### ------------------------------------------------------------------------
 # Submit Order as authenticated user
 # (send that three times to get out-of-stock message)
-POST {{server}}/browse/submitOrder
+POST {{server}}/odata/v4/browse/submitOrder
 Content-Type: application/json
 {{me}}
 
@@ -87,8 +87,8 @@ Content-Type: application/json
 
 
 ### ------------------------------------------------------------------------
-# Browse Genres
-GET {{server}}/browse/Genres?
+# List Genres
+GET {{server}}/admin/Genres?
 # &$filter=parent_ID eq null&$select=name
 # &$expand=children($select=name)
-{{me}}
+{{alice}}

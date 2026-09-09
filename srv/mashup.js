@@ -24,10 +24,18 @@ cds.once ('served', async ()=>{
   // Delegate requests to read reviews to the ReviewsService
   // Note: prepend is neccessary to intercept generic default handler
   //
-  CatalogService.prepend (srv => srv.on ('READ', 'Books/reviews', (req) => {
+  CatalogService.prepend (srv => srv.on ('READ', 'Books', async (req,next) => {
     console.debug ('> delegating request to ReviewsService') // eslint-disable-line no-console
-    const [id] = req.params, { columns, limit } = req.query.SELECT
-    return ReviewsService.read ('Reviews',columns).limit(limit).where({subject:String(id)})
+    let result = await next()
+    const asArray = Array.isArray(result) ? result : [result]
+    if (!asArray.length) return result
+    let bookIDs = asArray.map(x => `'${x.ID}'`) 
+    let query = `/Reviews?$apply=filter(subject in (${bookIDs}))/groupby((subject),aggregate($count as reviews))`
+    let reviewCounts = await ReviewsService.get(query)
+    let mapped = {}
+    reviewCounts.forEach(x => mapped[x.subject]=x.reviews)
+    asArray.forEach(x=>x.reviews = mapped[String(x.ID)] ?? null)
+    return result
   }))
 
   //

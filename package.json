@@ -25,8 +25,8 @@
   },
   "cds": {
     "requires": {
-      "ReviewsService": "odata",
-      "OrdersService": "odata",
+      "ReviewsService": "hcql",
+      "OrdersService": "hcql",
       "messaging": true,
       "db": {
         "[development]": {

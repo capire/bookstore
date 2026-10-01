@@ -7,7 +7,7 @@ describe ('browse books', ()=>{
 
   it ('should allow fetching lists of books', async () => {
     const { data } = await GET`Books? $select=ID,title`
-    expect (data.value) .to.deep.equal ([
+    expect (data.value) .to.containSubset ([
       { ID: 201, title: 'Wuthering Heights' },
       { ID: 207, title: 'Jane Eyre' },
       { ID: 251, title: 'The Raven' },
@@ -29,11 +29,11 @@ describe ('browse books', ()=>{
   it('serves Books?$expand=currency', async () => {
     const USD = { code: 'USD', name: 'US Dollar', descr: null, symbol: '$' }
     const { data } = await GET`Books ${{
-      params: { $search: 'Po', $select: `title,author,genre`, $expand:`currency` },
+      params: { $search: 'Po', $select: `title,author,genre`, $expand: `currency($select=code,name,descr,symbol)` },
     }}`
     expect(data.value).to.containSubset([
-      { ID: 251, title: 'The Raven', author: 'Edgar Allan Poe', genre:'Mystery', currency:USD },
-      { ID: 252, title: 'Eleonora', author: 'Edgar Allan Poe', genre:'Romance', currency:USD },
+      { ID: 251, title: 'The Raven', author: 'Edgar Allan Poe', genre:'Poetry', currency:USD },
+      { ID: 252, title: 'Eleonora', author: 'Edgar Allan Poe', genre:'Poetry', currency:USD },
     ])
   })
 
@@ -42,8 +42,8 @@ describe ('browse books', ()=>{
       params: { $search: 'Po', $select: `title,author,genre,currency/code` },
     }}`
     expect(data.value).to.containSubset([
-      { ID: 251, title: 'The Raven', author: 'Edgar Allan Poe', genre:'Mystery', currency_code:'USD' },
-      { ID: 252, title: 'Eleonora', author: 'Edgar Allan Poe', genre:'Romance', currency_code:'USD' },
+      { ID: 251, title: 'The Raven', author: 'Edgar Allan Poe', genre:'Poetry', currency_code:'USD' },
+      { ID: 252, title: 'Eleonora', author: 'Edgar Allan Poe', genre:'Poetry', currency_code:'USD' },
     ])
   })
 

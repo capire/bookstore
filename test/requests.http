@@ -32,32 +32,37 @@ Content-Type: application/json
 GET {{bookshop}}/browse/Books/201/reviews?
 &$select=rating,date,title
 &$top=3
-
 ###
 
 GET {{bookshop}}/browse/Books(201)?
 &$select=ID,title,rating
 &$expand=reviews
-
 ###
 
 GET {{bookshop}}/browse/Books?
 &$select=title,author&$expand=currency
 Accept-Language: de
+###
+
+POST {{bookshop}}/admin/Books
+Authorization: Basic alice:
+Content-Type: application/json
+
+{ }
+
 
 #################################################
 #
 #   Orders Service, incl. draft choreography
 #
 @newOrderID = e939604c-ab83-4d4f-bdb6-95fe30b3773e
-
-GET {{bookshop}}/odata/v4/orders/Orders
-
-### Create order, still inactive
+### Create order, still inactive 
+### we have to specify `IsActiveEntity` as false when bypass_draft is enabled 
+### to achieve the previous behavior of creating an inactive order.
 POST {{bookshop}}/odata/v4/orders/Orders
 Content-Type: application/json
 
-{"ID": "{{newOrderID}}"}
+{"ID": "{{newOrderID}}","IsActiveEntity": false}
 
 ### Get inactive order.  We have to specify `IsActiveEntity`.
 GET {{bookshop}}/odata/v4/orders/Orders(ID={{newOrderID}},IsActiveEntity=false)
@@ -65,6 +70,12 @@ GET {{bookshop}}/odata/v4/orders/Orders(ID={{newOrderID}},IsActiveEntity=false)
 ### Activate order using `.../<servicename>.draftActivate`
 POST {{bookshop}}/odata/v4/orders/Orders(ID={{newOrderID}},IsActiveEntity=false)/OrdersService.draftActivate
 Content-Type: application/json
+
+### Get active order
+GET {{bookshop}}/odata/v4/orders/Orders(ID={{newOrderID}},IsActiveEntity=true)
+
+### Delete active order
+DELETE {{bookshop}}/odata/v4/orders/Orders(ID={{newOrderID}},IsActiveEntity=true)
 
 ### Get active order
 GET {{bookshop}}/odata/v4/orders/Orders(ID={{newOrderID}},IsActiveEntity=true)

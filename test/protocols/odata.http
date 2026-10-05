@@ -1,0 +1,17 @@
+@server = http://localhost:4004
+
+###
+GET {{server}}/admin/Authors
+Authorization: Basic alice:
+
+###
+GET {{server}}/admin/Authors?$select=ID,name&$expand=books($select=ID,title)
+Authorization: Basic alice:
+
+###
+GET {{server}}/rest/admin/Authors
+Authorization: Basic alice:
+
+###
+GET {{server}}/rest/admin/Authors?$select=ID,name&$expand=books($select=ID,title)
+Authorization: Basic alice:

@@ -21,14 +21,21 @@ npm install
 > ```sh
 > npm login --scope @capire --registry=https://npm.pkg.github.com
 > ```
+>
+> For more details on this, see [Using @capire modules from GitHub Packages](https://qmacro.org/blog/posts/2025/10/12/using-capire-modules-from-github-packages/).
 
 
 ### Run it
 
 ```sh
-cds watch bookstore
+cds watch
 ```
 
+### Deploy it
+
+This @capire/bookstore sample demonstrates the consumption of external services via the `ReviewsService` and `OrdersService`. Therefore, remove the `"kind": "odata"` entries in _package.json_ if you want to deploy this project as a _monolith_.
+
+To deploy the microservices separately in a _modulith_ deployment, refer to the enclosing [`samples`](https://github.com/capire/samples) monorepo and its deployment and pipeline configuration.
 
 ## License
 

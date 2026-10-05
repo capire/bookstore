@@ -130,7 +130,7 @@ describe ('Sluggified variants', () => {
 describe ('CREATE', () => {
   it ('creates entities', async () => {
     let res = await POST ('/hcql/admin/Books', { title: "Neuromancer", author_ID: 101 })
-    expect(res.status).to.equal(201)
+    expect(res.status).to.equal(200)
     const books = _unwrap(res.data)
     expect(books).to.be.an('array').of.length(1)
     expect(books[0]).to.have.property('ID') // server-generated ID

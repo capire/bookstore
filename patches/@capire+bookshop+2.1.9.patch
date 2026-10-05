@@ -1,0 +1,81 @@
+diff --git a/node_modules/@capire/bookshop/db/data/sap.capire.bookshop-Authors.csv b/node_modules/@capire/bookshop/db/data/sap.capire.bookshop-Authors.csv
+index 93a4d57..d8abfe2 100644
+--- a/node_modules/@capire/bookshop/db/data/sap.capire.bookshop-Authors.csv
++++ b/node_modules/@capire/bookshop/db/data/sap.capire.bookshop-Authors.csv
+@@ -1,5 +1,5 @@
+-ID,name,dateOfBirth,placeOfBirth,dateOfDeath,placeOfDeath
+-101,Emily Brontë,1818-07-30,"Thornton, Yorkshire",1848-12-19,"Haworth, Yorkshire"
+-107,Charlotte Brontë,1818-04-21,"Thornton, Yorkshire",1855-03-31,"Haworth, Yorkshire"
+-150,Edgar Allan Poe,1809-01-19,"Boston, Massachusetts",1849-10-07,"Baltimore, Maryland"
+-170,Richard Carpenter,1929-08-14,"King’s Lynn, Norfolk",2012-02-26,"Hertfordshire, England"
++ID,externalId,name,dateOfBirth,placeOfBirth,dateOfDeath,placeOfDeath
++101,A-101,Emily Brontë,1818-07-30,"Thornton, Yorkshire",1848-12-19,"Haworth, Yorkshire"
++107,A-107,Charlotte Brontë,1818-04-21,"Thornton, Yorkshire",1855-03-31,"Haworth, Yorkshire"
++150,A-150,Edgar Allan Poe,1809-01-19,"Boston, Massachusetts",1849-10-07,"Baltimore, Maryland"
++170,A-170,Richard Carpenter,1929-08-14,"King's Lynn, Norfolk",2012-02-26,"Hertfordshire, England"
+diff --git a/node_modules/@capire/bookshop/db/schema.cds b/node_modules/@capire/bookshop/db/schema.cds
+index e8decf2..1cca467 100644
+--- a/node_modules/@capire/bookshop/db/schema.cds
++++ b/node_modules/@capire/bookshop/db/schema.cds
+@@ -13,8 +13,9 @@ entity Books : managed {
+ }
+ 
+ entity Authors : managed {
+-  key ID       : Integer;
+-  name         : String @mandatory;
++  key ID         : Integer;
++  externalId     : String;
++  name           : String @mandatory;
+   dateOfBirth  : Date;
+   dateOfDeath  : Date;
+   placeOfBirth : String;
+diff --git a/node_modules/@capire/bookshop/srv/admin-service.cds b/node_modules/@capire/bookshop/srv/admin-service.cds
+index 883fd1a..3d4fe4b 100644
+--- a/node_modules/@capire/bookshop/srv/admin-service.cds
++++ b/node_modules/@capire/bookshop/srv/admin-service.cds
+@@ -6,5 +6,5 @@ service AdminService @(odata:'/admin') {
+   entity Genres as projection on my.Genres;
+ }
+ 
+-// Additionally serve via HCQL and REST
+-annotate AdminService with @hcql @rest;
++// @hcql is not supported in CDS 8: it causes a SyntaxError via an incompatible path-to-regexp version
++annotate AdminService with @rest;
+diff --git a/node_modules/@capire/bookshop/srv/cat-service.cds b/node_modules/@capire/bookshop/srv/cat-service.cds
+index b9da4b6..b56f9fc 100644
+--- a/node_modules/@capire/bookshop/srv/cat-service.cds
++++ b/node_modules/@capire/bookshop/srv/cat-service.cds
+@@ -19,5 +19,5 @@ service CatalogService @(odata:'/browse') {
+   action submitOrder ( book: Books:ID, quantity: Integer );
+ }
+ 
+-// Additionally serve via HCQL and REST
+-annotate CatalogService with @hcql @rest;
++// @hcql is not supported in CDS 8: it causes a SyntaxError via an incompatible path-to-regexp version
++annotate CatalogService with @rest;
+diff --git a/node_modules/@capire/bookshop/srv/cat-service.js b/node_modules/@capire/bookshop/srv/cat-service.js
+index 1598f05..0d25a98 100644
+--- a/node_modules/@capire/bookshop/srv/cat-service.js
++++ b/node_modules/@capire/bookshop/srv/cat-service.js
+@@ -2,7 +2,6 @@ const cds = require('@sap/cds')
+ 
+ class CatalogService extends cds.ApplicationService { init() {
+ 
+-  const { Books } = cds.entities ('sap.capire.bookshop')
+   const { ListOfBooks } = this.entities
+ 
+   // Add some discount for overstocked books
+@@ -14,11 +13,11 @@ class CatalogService extends cds.ApplicationService { init() {
+   this.on ('submitOrder', async req => {
+     let { book:id, quantity } = req.data
+     if (quantity < 1) return req.error (400, `quantity has to be 1 or more`)
+-    let succeeded = await UPDATE (Books,id) 
++    let succeeded = await UPDATE ('sap.capire.bookshop.Books',id) 
+       .with `stock = stock - ${quantity}` 
+       .where `stock >= ${quantity}` 
+     if (succeeded) return
+-    else if (!this.exists(Books,id)) req.error (404, `Book #${id} doesn't exist`)
++    else if (!await this.exists('sap.capire.bookshop.Books',id)) req.error (404, `Book #${id} doesn't exist`)
+     else req.error (409, `${quantity} exceeds stock for book #${id}`)
+   })
+ 

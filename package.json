@@ -10,7 +10,8 @@
     "@capire/data-viewer": "*",
     "@capire/orders": "*",
     "@capire/reviews": "*",
-    "@sap/cds": ">=8"
+    "@sap/cds": ">=8",
+    "@sap/cds-dk": "^10.1.0"
   },
   "devDependencies": {
     "@cap-js/cds-test": "^1",

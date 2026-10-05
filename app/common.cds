@@ -117,6 +117,7 @@ annotate my.Authors with @(UI : {
 annotate my.Authors with {
   ID           @title: '{i18n>ID}';
   name         @title: '{i18n>Name}';
+  externalId   @Common: { Text: name, TextArrangement: #TextFirst };
   dateOfBirth  @title: '{i18n>DateOfBirth}';
   dateOfDeath  @title: '{i18n>DateOfDeath}';
   placeOfBirth @title: '{i18n>PlaceOfBirth}';

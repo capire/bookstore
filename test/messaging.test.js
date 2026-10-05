@@ -39,7 +39,7 @@ describe('cap/samples - Messaging', ()=>{
   ]))
 
   it ('should have received all messages', async()=> {
-    await new Promise((done)=>setImmediate(done))
+    await cds.flush()
     expect(count).equals(received.length).equals(5)
     expect(received.map(m=>m.data)).to.deep.equal([
       { subject: '201', reviews: 1, rating: 1.0 },

@@ -1,6 +1,6 @@
 sap.ui.define(["sap/fe/core/AppComponent"], function(AppComponent) {
 	"use strict";
-	return AppComponent.extend("books.Component", {
+	return AppComponent.extend("capire.books.Component", {
 		metadata: { manifest: "json" }
 	});
 });

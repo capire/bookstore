@@ -10,12 +10,12 @@
     "@capire/data-viewer": "*",
     "@capire/orders": "*",
     "@capire/reviews": "*",
-    "@sap/cds": ">=8",
+    "@sap/cds": ">=10",
     "@sap/cds-dk": "^10.1.0"
   },
   "devDependencies": {
     "@cap-js/cds-test": "^1",
-    "@cap-js/sqlite": ">=1"
+    "@cap-js/sqlite": ">=3"
   },
   "scripts": {
     "start": "cds-serve",

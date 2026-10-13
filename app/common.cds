@@ -70,11 +70,7 @@ annotate my.Books with {
     Text           : genre.name,
     TextArrangement: #TextOnly
   };
-  author  @title: '{i18n>Author}'       @Common              : {
-    ExternalID     : author.externalId,
-    Text           : author.name,
-    TextArrangement: #TextFirst
-  };
+  author  @title: '{i18n>Author}'       @Common              : {ExternalID: author.externalId, };
   price   @title: '{i18n>Price}'        @Measures.ISOCurrency: currency_code;
   stock   @title: '{i18n>Stock}';
   descr   @title: '{i18n>Description}'  @UI.MultiLineText;
@@ -88,7 +84,10 @@ annotate my.Authors with @(
   Common.SemanticKey: [ID],
   UI                : {
     Identification : [{Value: name}],
-    SelectionFields: [externalId, name],
+    SelectionFields: [
+      externalId,
+      name
+    ],
     LineItem       : [
       {Value: ID},
       {Value: externalId},
@@ -100,11 +99,15 @@ annotate my.Authors with @(
     ],
   }
 ) {
-  ID @Common: {
+  ID         @Common: {
     SemanticObject : 'Authors',
     Text           : name,
     TextArrangement: #TextSeparate,
     ExternalID     : externalId,
+  };
+  externalId @Common: {
+    Text           : name,
+    TextArrangement: #TextFirst
   };
 };
 

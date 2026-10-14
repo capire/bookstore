@@ -8,8 +8,8 @@ annotate AdminService.Authors with @odata.draft.enabled;
 //
 annotate AdminService.Authors with @(UI : {
   HeaderInfo : {
-    TypeName : 'Author',
-    TypeNamePlural : 'Authors',
+    TypeName : '{i18n>Author}',
+    TypeNamePlural : '{i18n>Authors}',
     Description : {Value : lifetime}
   },
   Facets : [

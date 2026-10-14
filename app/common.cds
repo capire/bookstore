@@ -34,8 +34,9 @@ annotate my.Books with @(
     Text: title,
     TextArrangement : #TextOnly
   };
-  author @ValueList.entity      : 'Authors';
 };
+
+annotate my.Authors with @cds.odata.valuelist;
 
 annotate common.Currencies with {
   symbol @Common.Label : '{i18n>Currency}';

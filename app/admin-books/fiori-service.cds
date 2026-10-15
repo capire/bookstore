@@ -47,7 +47,7 @@ annotate AdminService.Books with @(
 //
 annotate AdminService.Books with {
     genre @(Common: {
-        Label    : 'Genre',
+        Label    : '{i18n>Genre}',
         ValueList: {
             CollectionPath              : 'Genres',
             Parameters                  : [
@@ -83,9 +83,9 @@ annotate AdminService.Books.texts with @(
 		Identification: [{Value:title}],
 		SelectionFields: [ locale, title ],
 		LineItem: [
-			{Value: locale, Label: 'Locale'},
-			{Value: title, Label: 'Title'},
-			{Value: descr, Label: 'Description'},
+			{Value: locale, Label: '{i18n>Locale}'},
+			{Value: title, Label: '{i18n>Title}'},
+			{Value: descr, Label: '{i18n>Description}'},
 		]
 	}
 );

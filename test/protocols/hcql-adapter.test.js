@@ -9,6 +9,12 @@ const _unwrap = data => {
   return Array.isArray(data) ? data : [data]
 }
 
+beforeAll (()=>{
+  if (!cds.env.protocols.hcql.allows) return
+  cds.env.protocols.hcql.allows.UPDATE.many = true
+  cds.env.protocols.hcql.allows.DELETE.many = true
+})
+
 FetchAPI || describe ('GET w/ query in body', () => {
   it ('serves CQN query objects in body', async () => {
     const { data, books = _unwrap(data) } = await GET ('/hcql/admin', {

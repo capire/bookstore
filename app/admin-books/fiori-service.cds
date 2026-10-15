@@ -78,6 +78,15 @@ annotate AdminService.Genres with {
 annotate sap.capire.bookshop.Books with @fiori.draft.enabled;
 annotate AdminService.Books with @odata.draft.enabled;
 
+// Authors.books is a Composition now. We've to reduce it to an association
+// when we want to serve both, Authors and Books as draft-enabled entities,
+// to prevent this compiler error:
+// ERROR: Composition in draft-enabled entity can't lead to another entity
+// with “@odata.draft.enabled”
+extend AdminService.Authors with columns {
+	books : Association to many AdminService.Books on books.author = $self
+};
+
 annotate AdminService.Books.texts with @(
 	UI: {
 		Identification: [{Value:title}],

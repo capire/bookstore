@@ -76,7 +76,7 @@ FetchAPI || describe ('GET w/ query in body', () => {
 describe ('Sluggified variants', () => {
   test ('GET /Books', async () => {
     const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books')
-    expect(books).to.be.an('array').of.length(65)
+    expect(books).to.be.an('array').of.length(5)
   })
 
   test ('GET /Books/201', async () => {
@@ -154,6 +154,6 @@ describe ('DELETE', () => {
     const { DELETE } = cds.ql
     let res = await POST ('/hcql/admin', DELETE.from `Books` .where `author.name = 'Edgar Allan Poe'`)
     expect(res.status).to.equal(200)
-    expect(res.data.affected ?? res.data.data ?? res.data).to.equal(8) // 8 affected rows
+    expect(res.data.affected ?? res.data.data ?? res.data).to.equal(2) // 2 affected rows
   })
 })

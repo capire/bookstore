@@ -26,7 +26,6 @@ extend Orders:Items with {
 
 // Ensure models from all imported packages are loaded
 using from '@capire/orders/app/fiori';
-using from '@capire/data-viewer';
 using from '@capire/common';
 
 

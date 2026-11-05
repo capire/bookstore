@@ -86,8 +86,9 @@ describe ('Sluggified variants', () => {
     expect(books[0]).to.have.property ('title', "Wuthering Heights")
   })
 
-  test ('GET /Books { title, author.name as author }' , async () => {
-    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books { title, author.name as author } order by ID')
+  if (cds.version.localeCompare('10.3', { numeric: true }) >= 0)
+  test ('GET /Books w/ query parameters' , async () => {
+    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books?$select=title,author.name as author&$orderby=ID')
     expect(books).to.containSubset ([
       { title: "Wuthering Heights", author: "Emily Brontë" },
       { title: "Jane Eyre", author: "Charlotte Brontë" },
@@ -97,38 +98,39 @@ describe ('Sluggified variants', () => {
     ])
   })
 
-  test ('GET /Books/201 w/ CQL tail in URL' , async () => {
-    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201 { title, author.name as author } order by ID')
+  if (cds.version.localeCompare('10.3', { numeric: true }) >= 0)
+  test ('GET /Books/201 w/ query parameters' , async () => {
+    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201?$select=title,author.name as author&$orderby=ID')
     expect(books).to.be.an('array').of.length(1)
     expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
-  FetchAPI || it ('GET /Books/201 w/ CQL fragment in body' , async () => {
-    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201', {
-      headers: { 'Content-Type': 'text/plain' },
-      data: `{ title, author.name as author }`
-    })
+  it ('POST w/ single-row CQL query in body' , async () => {
+    const { data, books = _unwrap(data) } = await POST ('/hcql/admin',
+      `SELECT one from Books { title, author.name as author } where ID=201`,
+      { headers: { 'Content-Type': 'text/plain' } }
+    )
     expect(books).to.be.an('array').of.length(1)
     expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
-  FetchAPI || it ('GET /Books/201 w/ CQN fragment in body' , async () => {
-    const { data, books = _unwrap(data) } = await GET ('/hcql/admin/Books/201', {
-      data: cds.ql `SELECT title, author.name as author` .SELECT
-    })
+  it ('POST w/ single-row CQN query in body' , async () => {
+    const { data, books = _unwrap(data) } = await POST ('/hcql/admin',
+      cds.ql `SELECT one title, author.name as author from Books where ID=201`
+    )
     expect(books).to.be.an('array').of.length(1)
     expect(books[0]).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 
-  FetchAPI || it ('GET /Books/201 w/ tail in URL plus CQL/CQN fragments in body' , async () => {
-    const { data: d1, b1 = _unwrap(d1)[0] } = await GET ('/hcql/admin/Books where ID=201', {
-      data: cds.ql `SELECT title, author.name as author` .SELECT
-    })
+  it ('POST w/ filtered CQL/CQN queries in body' , async () => {
+    const { data: d1, b1 = _unwrap(d1)[0] } = await POST ('/hcql/admin',
+      cds.ql `SELECT title, author.name as author from Books where ID=201`
+    )
     expect(b1).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
-    const { data: d2, b2 = _unwrap(d2)[0] } = await GET ('/hcql/admin/Books where ID=201', {
-      headers: { 'Content-Type': 'text/plain' },
-      data: `{ title, author.name as author }`
-    })
+    const { data: d2, b2 = _unwrap(d2)[0] } = await POST ('/hcql/admin',
+      `SELECT from Books { title, author.name as author } where ID=201`,
+      { headers: { 'Content-Type': 'text/plain' } }
+    )
     expect(b2).to.deep.equal ({ title: "Wuthering Heights", author: "Emily Brontë" })
   })
 })

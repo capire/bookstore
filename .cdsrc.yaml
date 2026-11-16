@@ -1,3 +1,6 @@
 cds:
   features:
     legacy_db_results: false
+
+  cdsc:
+    docs: true

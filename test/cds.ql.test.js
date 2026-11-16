@@ -20,11 +20,11 @@ describe('cds.ql → cqn', () => {
 
   describe.each(['SELECT', 'SELECT one', 'SELECT distinct'])(`%s...`, (each) => {
 
-    let SELECT; beforeEach(()=> SELECT = (
+    let SELECT; beforeEach(()=> { SELECT = (
       each === 'SELECT distinct' ? cds.ql.SELECT.distinct :
       each === 'SELECT one' ? cds.ql.SELECT.one :
       cds.ql.SELECT
-    ))
+    ) })
 
     test(`from Foo`, () => {
       expect(cqn = SELECT `from Foo`)
